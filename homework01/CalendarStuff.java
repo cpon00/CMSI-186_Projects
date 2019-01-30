@@ -369,7 +369,7 @@ public class CalendarStuff {
                    }
 
                }
-           dayCount -= 365;
+           
 
 
 
@@ -378,7 +378,7 @@ public class CalendarStuff {
 
 
            }else{
-               for (int yearDiff = (int)year1; yearDiff <= (int)year2 - 1; yearDiff++) {
+               for (int yearDiff = (int)year1; yearDiff < (int)year2 - 1; yearDiff++) {
                        if (isLeapYear(yearDiff)) {
                            dayCount += 366;
                        }else{
@@ -402,7 +402,7 @@ public class CalendarStuff {
                    }
 
                    dayCount += day2;
-                   dayCount -= 365;
+
 
 
 
