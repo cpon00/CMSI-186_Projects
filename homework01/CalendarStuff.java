@@ -218,13 +218,13 @@ public class CalendarStuff {
         }
         if (month == 2) {
             //if month is February, test if leap year, then determine date validity.
-            if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+            if (isLeapYear(year)) {
                 if (day > days[(int)month-1] + 1 || day <= 0) {
                     return (false);
                 }
             }else{
                 //if not leap year, test equality without adding an extra day.
-                if (day >= days[(int)month - 1] || day <= 0) {
+                if (day > days[(int)month - 1] || day <= 0) {
                     return (false);
                 }
             }
