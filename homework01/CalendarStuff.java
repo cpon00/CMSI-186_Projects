@@ -407,6 +407,9 @@ public class CalendarStuff {
             daysDiff2 += (int)day2;
             dayCount += Math.abs(daysDiff1 - daysDiff2);
         }
+        if (isLeapYear(year1)) {
+            dayCount -= 10;
+}
         return (dayCount);
     }
 }
