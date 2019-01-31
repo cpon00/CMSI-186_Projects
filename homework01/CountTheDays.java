@@ -7,7 +7,7 @@ public class CountTheDays extends CalendarStuff {
         long day2 = Long.parseLong(args[4]);
         long year2 = Long.parseLong(args[5]);
         if ((CalendarStuff.isValidDate(month1, day1, year1)) && (CalendarStuff.isValidDate(month2, day2, year2))) {
-            System.out.println(CalendarStuff.daysBetween(month1, day1, year1, month2, day2, year2));
+            System.out.println("The number of days between the dates is" + " " + CalendarStuff.daysBetween(month1, day1, year1, month2, day2, year2) + ".");
         }else{
             System.out.println("Invalid date. Run it back.");
         }
