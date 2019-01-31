@@ -209,7 +209,7 @@ public class CalendarStuff {
     *         be decremented to make the appropriate index value
     */
     public static boolean isValidDate( long month, long day, long year ) {
-        if (month <= 0 || month >= 13) {
+        if (month <= 0 || month > 12) {
             //if not a valid month, return false.
             return (false);
         }
@@ -250,30 +250,30 @@ public class CalendarStuff {
         *such as a number lower than 1 or higher than 12, the method will return false.
         */
         String monthtitle = "";
-        switch( month - 1 ) {
-            case 0: monthtitle = "January";
+        switch(month) {
+            case 1: monthtitle = "January";
             break;
-            case 1: monthtitle = "February";
+            case 2: monthtitle = "February";
             break;
-            case 2: monthtitle = "March";
+            case 3: monthtitle = "March";
             break;
-            case 3: monthtitle = "April";
+            case 4: monthtitle = "April";
             break;
-            case 4: monthtitle = "May";
+            case 5: monthtitle = "May";
             break;
-            case 5: monthtitle = "June";
+            case 6: monthtitle = "June";
             break;
-            case 6: monthtitle = "July";
+            case 7: monthtitle = "July";
             break;
-            case 7: monthtitle = "August";
+            case 8: monthtitle = "August";
             break;
-            case 8: monthtitle = "September";
+            case 9: monthtitle = "September";
             break;
-            case 9: monthtitle = "October";
+            case 10: monthtitle = "October";
             break;
-            case 10: monthtitle = "November";
+            case 11: monthtitle = "November";
             break;
-            case 11: monthtitle = "December";
+            case 12: monthtitle = "December";
             break;
             default: throw new IllegalArgumentException( "Illegal month value given to 'toMonthString()'." );
         }
@@ -287,20 +287,20 @@ public class CalendarStuff {
     */
     public static String toDayOfWeekString( int day ) {
         String dayofweek = "";
-        switch( day - 1 ) {
-            case 0: dayofweek = "Sunday";
+        switch( day ) {
+            case 1: dayofweek = "Sunday";
             break;
-            case 1: dayofweek = "Monday";
+            case 2: dayofweek = "Monday";
             break;
-            case 2: dayofweek = "Tuesday";
+            case 3: dayofweek = "Tuesday";
             break;
-            case 3: dayofweek = "Wednesday";
+            case 4: dayofweek = "Wednesday";
             break;
-            case 4: dayofweek = "Thursday";
+            case 5: dayofweek = "Thursday";
             break;
-            case 5: dayofweek = "Friday";
+            case 6: dayofweek = "Friday";
             break;
-            case 6: dayofweek = "Saturday";
+            case 7: dayofweek = "Saturday";
             break;
 
             default: throw new IllegalArgumentException( "Illegal day value given to 'toDayOfWeekString()'." );
@@ -408,8 +408,11 @@ public class CalendarStuff {
             dayCount += Math.abs(daysDiff1 - daysDiff2);
         }
         if (isLeapYear(year1)) {
+//I had a logic error which added ten days to the dayCount if the beginning year was a leap year. This
+//error was impossible to replicate with any other scenario unless the first year was a leap year. Thus,
+//this statement exists.
             dayCount -= 10;
-}
+        }
         return (dayCount);
     }
 }

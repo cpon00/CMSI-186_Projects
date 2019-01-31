@@ -15,6 +15,5 @@ public class CountTheDays extends CalendarStuff {
         } catch (NumberFormatException e) {
             System.out.println("Invalid Argument(s).");
         }
-
     }
 }
