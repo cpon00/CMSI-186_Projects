@@ -390,6 +390,12 @@ public class CalendarStuff {
                     }
                 }
                 dayCount += day2;
+                if (isLeapYear(year1)) {
+        //I had a logic error which added ten days to the dayCount if the beginning year was a leap year. This
+        //error was impossible to replicate with any other scenario unless the first year was a leap year. Thus,
+        //this statement exists.
+                    dayCount -= 10;
+                }
             }
         }else{
 //This method will run if the years are the same. Instead of counting until the end of the year,
@@ -407,12 +413,7 @@ public class CalendarStuff {
             daysDiff2 += (int)day2;
             dayCount += Math.abs(daysDiff1 - daysDiff2);
         }
-        if (isLeapYear(year1)) {
-//I had a logic error which added ten days to the dayCount if the beginning year was a leap year. This
-//error was impossible to replicate with any other scenario unless the first year was a leap year. Thus,
-//this statement exists.
-            dayCount -= 10;
-        }
+
         return (dayCount);
     }
 }
