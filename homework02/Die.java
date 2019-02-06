@@ -33,7 +33,9 @@
  *  @version 1.0.0  2017-02-06  B.J. Johnson  Initial writing and release
  *  @version 1.1.0  2017-02-17  B.J. Johnson  Filled in method code
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+import java.util.Random;
 public class Die {
+
 
   /**
    * private instance data
@@ -41,6 +43,7 @@ public class Die {
    private int sides;
    private int pips;
    private final int MINIMUM_SIDES = 4;
+   private int randomRoll;
 
    // public constructor:
   /**
@@ -50,6 +53,7 @@ public class Die {
    * Note: parameter must be checked for validity; invalid value must throw "IllegalArgumentException"
    */
    public Die( int nSides ) {
+       sides = nSides;
    }
 
   /**
@@ -57,7 +61,9 @@ public class Die {
    * @return  integer value of the result of the roll, randomly selected
    */
    public int roll() {
-      return 0;
+      Random random = new Random();
+      randomRoll = random.nextInt(sides) + 1;
+      return (randomRoll);
    }
 
   /**
@@ -68,7 +74,8 @@ public class Die {
    * @return the pip count of THIS die instance
    */
    public int getValue() {
-      return 0;
+      pips = randomRoll;
+      return (pips);
    }
 
   /**
@@ -84,7 +91,7 @@ public class Die {
    * @return String representation of this Die
    */
    public String toString() {
-      return "";
+      return "[" + randomRoll + "]";
    }
 
   /**
@@ -99,7 +106,11 @@ public class Die {
    * A little test main to check things out
    */
    public static void main( String[] args ) {
-      System.out.println( "Hello world from the Die class..." );
+       Die test = new Die(4);
+       System.out.println(test.roll());
+       System.out.println(test.getValue());
+       System.out.println(test.toString());
+       System.out.println( "Hello world from the Die class..." );
    }
 
 }
