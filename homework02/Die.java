@@ -53,7 +53,9 @@ public class Die {
    * Note: parameter must be checked for validity; invalid value must throw "IllegalArgumentException"
    */
    public Die( int nSides ) {
-       sides = nSides;
+       try {
+           sides = nSides;
+       }else{}
    }
 
   /**
@@ -99,7 +101,7 @@ public class Die {
    * @return String representation of this Die
    */
    public static String toString( Die d ) {
-      return "";
+      return "[" + randomRoll + "]";
    }
 
   /**
