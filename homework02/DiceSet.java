@@ -69,7 +69,7 @@ public class DiceSet {
     public void roll() {
         for (int i = 0; i < count; i++) {
             ds[i].roll();
-            ds[i].toString();
+            
         }
     }
     /**
