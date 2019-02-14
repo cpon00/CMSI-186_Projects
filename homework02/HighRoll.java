@@ -41,6 +41,7 @@ public class HighRoll{
             //numberOfDice = sidesInput converted to an integer.
         } catch (Exception e) {
             System.out.println("Invalid DiceSet.");
+            return;
         }
         System.out.println("\n Welcome to High Roll!!\n" );
         System.out.println(" Press [1] to: ROLL ALL THE DICE.");
