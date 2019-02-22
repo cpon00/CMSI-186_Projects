@@ -24,8 +24,8 @@ public class ClockSolver {
     */
     private final double MAX_TIME_SLICE_IN_SECONDS  = 1800.00;
     private final double DEFAULT_TIME_SLICE_SECONDS = 60.0;
-    private final double EPSILON_VALUE              = 0.1;      // small value for double-precision comparisons
-
+    private double EPSILON_VALUE = 0.1;      // small value for double-precision comparisons
+    private int validTimes = 0;
     /**
     *  Constructor
     *  This just calls the superclass constructor, which is "Object"
@@ -33,8 +33,6 @@ public class ClockSolver {
     public ClockSolver() {
         super();
     }
-
-
     /**
     *  Method to handle all the input arguments from the command line
     *   this sets up the variables for the simulation
@@ -50,21 +48,22 @@ public class ClockSolver {
         System.out.println( "\n   Hello world, from the ClockSolver program!!\n\n" ) ;
         if( 0 == args.length ) {
             System.out.println( "   Sorry you must enter at least one argument\n" +
-            "   Usage: java ClockSolver <angle> [timeSlice]\n" +
+            "   Usage: java ClockSolver <angle> [timeSlice] (EPSILON_VALUE)\n" +
             "   Please try again..........." );
             System.exit(1);
         }
-        Clock clock = new Clock();
+        Clock.validateAngleArg(args[0]);
+        if (2 <= args.length) {
+            Clock.validateTimeSliceArg(args[1]);
+        }
+        if (3 <= args.length) {
+            EPSILON_VALUE = Double.parseDouble(args[2]);
+        }
 
-            clock.validateAngleArg(args[0]);
-            clock.validateTimeSliceArg(args[1]);
-            //if i use an angle window, i can estimate if within a certain range.
-            // we can do this.
-
-
-
+        //if i use an angle window, i can estimate if within a certain range.
+        // we can do this.
     }
-
+    //Absolute value of calculated angle minus target angle ? <= epsilon value or entered angle window.
     /**
     *  The main program starts here
     *  remember the constraints from the project description
@@ -76,27 +75,27 @@ public class ClockSolver {
     public static void main( String args[] ) {
         ClockSolver clockSolver = new ClockSolver();
         Clock clock = new Clock();
-        double[] timeValues = new double[3];
-        clockSolver.handleInitialArguments( args );
-
-
-
-
+        try {
+            clockSolver.handleInitialArguments(args);
+        }catch(Exception e) {
+            System.out.println("Invalid Arguments. Enter an argument in integer/double format.");
+            return;
+        }
+        System.out.println("Range of Error = " + clockSolver.EPSILON_VALUE + "\n");
         while( clock.getTotalSeconds() <= 43200.0 ) {
-           //System.out.println("hourHandAngle: " + clock.getHourHandAngle() + " MinuteHandAngle: " + clock.getMinuteHandAngle() + " handAngle: " + clock.getHandAngle());
             clock.getHourHandAngle();
-            //System.out.println("Hour Hand: " + clock.getHourHandAngle());
             clock.getMinuteHandAngle();
-            //System.out.println("Minute Hand: " + clock.getMinuteHandAngle());
             clock.getHandAngle();
-            //System.out.println("Hand Angle: " + clock.getHandAngle());
-
-            // System.out.println("Hand Angle: " + clock.getHandAngle());
-            if ((int)clock.getHandAngle() == clock.angle) {
-                System.out.println("Clock Time: ************** " + clock.toString());
+            if (Math.abs(clock.getHandAngle() - clock.angle) <= clockSolver.EPSILON_VALUE) {
+                //if the difference between the calculated angle and the expected angle is less than the
+                //epsilon value (default = 0.1), lets consider it valid as equal to the expected angle.
+                System.out.println("Clock Time: " + clock.toString());
+                clockSolver.validTimes++;
             }
             clock.tick();
-
+        }
+        if (clockSolver.validTimes == 0) {
+            System.out.println("Perhaps try a different Range of Error.");
         }
         System.exit(0);
     }
