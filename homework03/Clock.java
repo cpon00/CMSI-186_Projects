@@ -90,7 +90,7 @@ public class Clock {
         //should use a default time slice of 60 seconds.
         //check if within 0-1800 seconds.
         Double argumentValue = Double.parseDouble(argValue);
-        if (argumentValue < 0.0 || argumentValue >= 1800.0) {
+        if (argumentValue < 0.0 || argumentValue > 1800.0) {
             return INVALID_ARGUMENT_VALUE;
         }
         timeSlice = argumentValue;
@@ -190,13 +190,8 @@ public class Clock {
             System.out.println((12.00001 == clock.validateTimeSliceArg("12.00001")) ? " - Correct: 12.00001" : timeSlice);
             System.out.println((360.0 == clock.validateTimeSliceArg("360")) ? " - Correct: 360.0" : timeSlice);
             System.out.println((342.001 == clock.validateTimeSliceArg("342.001")) ? " - Correct: 342.001" : timeSlice);
-        } catch( Exception e ) {
-
-        System.out.println(e.toString());
-            if (!(e.toString().equals("java.lang.NumberFormatException: invalid angle arg"))) {
-                System.out.println ( " - Exception thrown: " + e.toString() );
-            }
-            // System.out.println ( " - Exception thrown: " + e.toString() );
+        } catch( Exception e ) {                 
+            System.out.println ( " - Exception thrown: " + e.toString() );
          }
     }
 }
