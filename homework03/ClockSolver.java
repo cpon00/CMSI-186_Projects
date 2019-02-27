@@ -53,11 +53,18 @@ public class ClockSolver {
             System.exit(1);
         }
         Clock.validateAngleArg(args[0]);
+        
         if (2 <= args.length) {
             Clock.validateTimeSliceArg(args[1]);
         }
         if (3 <= args.length) {
             EPSILON_VALUE = Double.parseDouble(args[2]);
+        }
+        if (Clock.validateAngleArg(args[0]) == -1) {
+            throw new IllegalArgumentException("bad angle");
+        }
+        if (Clock.validateTimeSliceArg(args[1]) == -1) {
+            throw new IllegalArgumentException("bad time slice");
         }
 
         //if i use an angle window, i can estimate if within a certain range.
@@ -81,11 +88,9 @@ public class ClockSolver {
             System.out.println("Invalid Arguments. Enter an argument in integer/double format.");
             return;
         }
+
         System.out.println("Range of Error = " + clockSolver.EPSILON_VALUE + "\n");
         while( clock.getTotalSeconds() <= 43200.0 ) {
-            clock.getHourHandAngle();
-            clock.getMinuteHandAngle();
-            clock.getHandAngle();
             if (Math.abs(clock.getHandAngle() - clock.angle) <= clockSolver.EPSILON_VALUE) {
                 //if the difference between the calculated angle and the expected angle is less than the
                 //epsilon value (default = 0.1), lets consider it valid as equal to the expected angle.

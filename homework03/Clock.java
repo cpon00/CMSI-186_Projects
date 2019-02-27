@@ -50,6 +50,9 @@ public class Clock {
     */
     public double tick() {
         seconds += timeSlice;
+        getHourHandAngle();
+        getMinuteHandAngle();
+        getHandAngle();
         return seconds;
     }
 
@@ -64,7 +67,8 @@ public class Clock {
         //check if within 0-360 degrees.
             Double argumentValue = Double.parseDouble(argValue);
             if ((argumentValue < 0.0) || (argumentValue > 360.0)) {
-                return(INVALID_ARGUMENT_VALUE);
+                return INVALID_ARGUMENT_VALUE;
+                // throw new NumberFormatException("invalid angle arg");
             }
             angle = argumentValue;
 
@@ -87,7 +91,7 @@ public class Clock {
         //check if within 0-1800 seconds.
         Double argumentValue = Double.parseDouble(argValue);
         if (argumentValue < 0.0 || argumentValue >= 1800.0) {
-            return (INVALID_ARGUMENT_VALUE);
+            return INVALID_ARGUMENT_VALUE;
         }
         timeSlice = argumentValue;
         return timeSlice;
@@ -99,7 +103,7 @@ public class Clock {
     public double getHourHandAngle() {
         //what angle is the hour hand at?
         //seconds after initialization, multiplied by HOUR_HAND_DEGREES_PER_SECOND
-        hourHandAngle = (seconds * HOUR_HAND_DEGREES_PER_SECOND)%360.0;
+        hourHandAngle = (seconds * HOUR_HAND_DEGREES_PER_SECOND);
         //how do i find the seconds after initialization?
         //360 - hour hand angle
         return hourHandAngle;
@@ -187,6 +191,12 @@ public class Clock {
             System.out.println((360.0 == clock.validateTimeSliceArg("360")) ? " - Correct: 360.0" : timeSlice);
             System.out.println((342.001 == clock.validateTimeSliceArg("342.001")) ? " - Correct: 342.001" : timeSlice);
         } catch( Exception e ) {
-            System.out.println ( " - Exception thrown: " + e.toString() ); }
+
+        System.out.println(e.toString());
+            if (!(e.toString().equals("java.lang.NumberFormatException: invalid angle arg"))) {
+                System.out.println ( " - Exception thrown: " + e.toString() );
+            }
+            // System.out.println ( " - Exception thrown: " + e.toString() );
+         }
     }
 }
