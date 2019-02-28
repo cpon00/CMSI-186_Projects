@@ -95,7 +95,7 @@ public class ClockSolver {
         }
         System.out.println("Range of Error = " + clockSolver.EPSILON_VALUE + "\n");
         while( clock.getTotalSeconds() <= 43200.0 ) {
-            if (isWithin()) {
+            if (clockSolver.isWithin()) {
                 //we needed to also find if the angle between the two angles was equal to the expected angle the opposite way, hence the 360.
                 //BJ's code is broken; it doesn't take values 180-360.
                 //can I get extra credit for figuring this out?
