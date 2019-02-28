@@ -50,9 +50,7 @@ public class Clock {
     */
     public double tick() {
         seconds += timeSlice;
-        getHourHandAngle();
-        getMinuteHandAngle();
-        getHandAngle();
+
         return seconds;
     }
 
@@ -115,7 +113,8 @@ public class Clock {
     public double getMinuteHandAngle() {
         //what angle is the minute hand at?
         //seconds after initialization, multiplied by MINUTE_HAND_DEGREES_PER_SECOND
-        minuteHandAngle = (seconds * MINUTE_HAND_DEGREES_PER_SECOND)%360.0;
+        minuteHandAngle = (seconds * MINUTE_HAND_DEGREES_PER_SECOND)%360;
+
         //360 - minute hand angle
         return minuteHandAngle;
     }
@@ -127,6 +126,8 @@ public class Clock {
         //difference between both angles, no matter what orientation.
         //Angle furthest from zero minus angle closest to 0.
         handAngle = Math.abs(hourHandAngle - minuteHandAngle);
+        
+
 
         return handAngle;
     }
@@ -190,7 +191,7 @@ public class Clock {
             System.out.println((12.00001 == clock.validateTimeSliceArg("12.00001")) ? " - Correct: 12.00001" : timeSlice);
             System.out.println((360.0 == clock.validateTimeSliceArg("360")) ? " - Correct: 360.0" : timeSlice);
             System.out.println((342.001 == clock.validateTimeSliceArg("342.001")) ? " - Correct: 342.001" : timeSlice);
-        } catch( Exception e ) {                 
+        } catch( Exception e ) {
             System.out.println ( " - Exception thrown: " + e.toString() );
          }
     }

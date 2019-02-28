@@ -93,7 +93,13 @@ public class ClockSolver {
 
         System.out.println("Range of Error = " + clockSolver.EPSILON_VALUE + "\n");
         while( clock.getTotalSeconds() <= 43200.0 ) {
-            if (Math.abs(clock.getHandAngle() - clock.angle) <= clockSolver.EPSILON_VALUE) {
+            clock.getHourHandAngle();
+            clock.getMinuteHandAngle();
+            clock.getHandAngle();
+            if (Math.abs(clock.getHandAngle() - clock.angle) <= clockSolver.EPSILON_VALUE || Math.abs((360 - clock.getHandAngle()) - clock.angle) <= clockSolver.EPSILON_VALUE) {
+                //we needed to also find if the angle between the two angles was equal to the expected angle the opposite way, hence the 360.
+                //BJ's code is broken; it doesn't take values 180-360.
+                //can I get extra credit for figuring this out?
                 //if the difference between the calculated angle and the expected angle is less than the
                 //epsilon value (default = 0.1), lets consider it valid as equal to the expected angle.
                 System.out.println("Clock Time: " + clock.toString());
