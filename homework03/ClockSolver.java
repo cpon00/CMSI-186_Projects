@@ -103,9 +103,11 @@ public class ClockSolver {
                 //epsilon value (default = 0.1), lets consider it valid as equal to the expected angle.
                 System.out.println("Clock Time: " + clock.toString());
                 clockSolver.validTimes++;
+                System.out.println(clock.getTotalSeconds());
             }
             clock.tick();
         }
+        System.out.println(clockSolver.validTimes);
         if (clockSolver.validTimes == 0) {
             System.out.println("Perhaps try a different Range of Error.");
         }

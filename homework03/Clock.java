@@ -49,10 +49,10 @@ public class Clock {
     *  @return double-precision value of the current clock tick
     */
     public double tick() {
+        seconds += timeSlice;
         getHourHandAngle();
         getMinuteHandAngle();
         getHandAngle();
-        seconds += timeSlice;
 
         return seconds;
     }
