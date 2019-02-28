@@ -24,7 +24,7 @@ public class ClockSolver {
     */
     private final double MAX_TIME_SLICE_IN_SECONDS  = 1800.00;
     private final double DEFAULT_TIME_SLICE_SECONDS = 60.0;
-    private double EPSILON_VALUE = 0.1;      // small value for double-precision comparisons
+    private static double EPSILON_VALUE = 0.1;      // small value for double-precision comparisons
     private int validTimes = 0;
     /**
     *  Constructor
@@ -72,6 +72,9 @@ public class ClockSolver {
         //if i use an angle window, i can estimate if within a certain range.
         // we can do this.
     }
+    public static boolean isWithin () {
+        return (Math.abs(Clock.getHandAngle() - Clock.angle) <= ClockSolver.EPSILON_VALUE || Math.abs((360 - Clock.getHandAngle()) - Clock.angle) <= ClockSolver.EPSILON_VALUE);
+    }
     //Absolute value of calculated angle minus target angle ? <= epsilon value or entered angle window.
     /**
     *  The main program starts here
@@ -90,13 +93,9 @@ public class ClockSolver {
             System.out.println("Invalid Arguments. Enter an argument in integer/double format.");
             return;
         }
-
         System.out.println("Range of Error = " + clockSolver.EPSILON_VALUE + "\n");
         while( clock.getTotalSeconds() <= 43200.0 ) {
-            clock.getHourHandAngle();
-            clock.getMinuteHandAngle();
-            clock.getHandAngle();
-            if (Math.abs(clock.getHandAngle() - clock.angle) <= clockSolver.EPSILON_VALUE || Math.abs((360 - clock.getHandAngle()) - clock.angle) <= clockSolver.EPSILON_VALUE) {
+            if (isWithin()) {
                 //we needed to also find if the angle between the two angles was equal to the expected angle the opposite way, hence the 360.
                 //BJ's code is broken; it doesn't take values 180-360.
                 //can I get extra credit for figuring this out?

@@ -49,6 +49,9 @@ public class Clock {
     *  @return double-precision value of the current clock tick
     */
     public double tick() {
+        getHourHandAngle();
+        getMinuteHandAngle();
+        getHandAngle();
         seconds += timeSlice;
 
         return seconds;
@@ -122,11 +125,11 @@ public class Clock {
     *  Method to calculate and return the angle between the hands
     *  @return double-precision value of the angle between the two hands
     */
-    public double getHandAngle() {
+    public static double getHandAngle() {
         //difference between both angles, no matter what orientation.
         //Angle furthest from zero minus angle closest to 0.
         handAngle = Math.abs(hourHandAngle - minuteHandAngle);
-        
+
 
 
         return handAngle;
