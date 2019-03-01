@@ -35,13 +35,10 @@ public class Clock {
     private static int minutesString = 0;
     private static int hoursString = 0;
     private static int secondsString = 0;
-    /**
-    *  Constructor goes here
-    */
+
     public Clock() {
         // :)
     }
-
     /**
     *  Methods go here
     *
@@ -53,10 +50,8 @@ public class Clock {
         getHourHandAngle();
         getMinuteHandAngle();
         getHandAngle();
-
         return seconds;
     }
-
     /**
     *  Method to validate the angle argument
     *  @param   argValue  String from the main programs args[0] input
@@ -72,7 +67,6 @@ public class Clock {
                 // throw new NumberFormatException("invalid angle arg");
             }
             angle = argumentValue;
-
         return angle;
     }
     /**
@@ -117,7 +111,6 @@ public class Clock {
         //what angle is the minute hand at?
         //seconds after initialization, multiplied by MINUTE_HAND_DEGREES_PER_SECOND
         minuteHandAngle = (seconds * MINUTE_HAND_DEGREES_PER_SECOND)%360;
-
         //360 - minute hand angle
         return minuteHandAngle;
     }
@@ -129,9 +122,6 @@ public class Clock {
         //difference between both angles, no matter what orientation.
         //Angle furthest from zero minus angle closest to 0.
         handAngle = Math.abs(hourHandAngle - minuteHandAngle);
-
-
-
         return handAngle;
     }
     /**

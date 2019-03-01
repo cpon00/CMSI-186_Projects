@@ -56,7 +56,6 @@ public class ClockSolver {
         if (Clock.validateAngleArg(args[0]) == -1) {
             throw new IllegalArgumentException("bad angle");
         }
-
         if (2 <= args.length) {
             Clock.validateTimeSliceArg(args[1]);
             if (Clock.validateTimeSliceArg(args[1]) == -1) {
@@ -66,9 +65,6 @@ public class ClockSolver {
         if (3 <= args.length) {
             EPSILON_VALUE = Double.parseDouble(args[2]);
         }
-
-
-
         //if i use an angle window, i can estimate if within a certain range.
         // we can do this.
     }
@@ -107,7 +103,6 @@ public class ClockSolver {
             }
             clock.tick();
         }
-
         if (clockSolver.validTimes == 0) {
             System.out.println("Perhaps try a different Range of Error.");
         }
