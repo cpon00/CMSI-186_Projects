@@ -103,7 +103,7 @@ public class ClockSolver {
                 //epsilon value (default = 0.1), lets consider it valid as equal to the expected angle.
                 System.out.println("Clock Time: " + clock.toString());
                 clockSolver.validTimes++;
-                
+
             }
             clock.tick();
         }
