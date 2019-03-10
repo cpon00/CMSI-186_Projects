@@ -25,7 +25,7 @@ rollIndividual    : works                             - 1 point
 getIndividual     : works                             - 1 point
 instan. toString  : works                             - 1 point
 class toString    : works                             - 1 point
-isIdentical       : works                             - 0.5 points
+isIdentical       : works                             - 1 point
 main for testing  : Exists, with some tests in it     - 1 point
 
 class HighRoll    : Exists, coding style acceptable   - 1 point
@@ -41,7 +41,7 @@ Files in Git      : all three present                 - 1 point
 Test Harness      : passes all evaluation tests       - 1 point
 HighRoll          : passes all evaluation tests       - 2 points
 
-Total 29.5 out of 30 = 98.33% which is an A
+Total 30 out of 30 = 100% which is an A-plus
 
 Comments: isIdentical does not check for individual value of each dice in set
 
