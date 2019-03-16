@@ -7,6 +7,8 @@ import java.util.*;
 public class SoccerSim {
 	private static Ball[] ballSack = null;
 	private static double[] distances = null;
+	private static int ball1;
+	private static int ball2;
 	//need to initialize flagpole as well.
 	//also need to change timeSlice to
 	public void handleMyBalls (String args[]) {
@@ -22,13 +24,16 @@ public class SoccerSim {
 				//timeSLice = args[args.length - 1];
 				Timer.timeSlice = Double.parseDouble(args[args.length - 1]);
 			}
+
 			for (int i = 0; i < ballSack.length; i++) {
-				for (double k = 0; k <= args.length; k += 4) {
-					ballSack[i] = new Ball (k, k + 1, k + 2, k + 3);
+				for (int k = 0; k < args.length; k += 4) {
+					ballSack[i] = new Ball (Double.parseDouble(args[k]), Double.parseDouble(args[k + 1]),  Double.parseDouble(args[k + 2]),  Double.parseDouble(args[k + 3]));
+					System.out.println(ballSack[i].toString() + "\n\n");
 				}
 			}
 		}catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println ("Invalid Input. Must input in sets of four, with optional argument for timeSlice.");
+
 			return;
 		}
 	}
@@ -36,10 +41,12 @@ public class SoccerSim {
 		return (SoccerSim.isNotOffCourse() && SoccerSim.isNotStopped());
 	}
 
-	public void String toString() {
-		for (int i = 0; i <= ballSack.length; i++) {
-			ballSack[i].toString();
+	public String toString() {
+		String result = "";
+		for (int i = 0; i < ballSack.length; i++) {
+			result += ballSack[i].toString();
 		}
+		return result;
 	}
 	//maybe a method called move()
 	//for every ball in ball array, updateSpeed, then getxandyPos.
@@ -95,6 +102,8 @@ public class SoccerSim {
 			if (Math.abs(ballSack[i].distanceFromPole - ballSack[i + 1].distanceFromPole) <= Ball.diameter) {
 				//return true if distance between balls is less than the diameter.
 				 if (ballSack[i].getDistance(ballSack[i + 1].getxPos(), ballSack[i + 1].getyPos()) <= Ball.diameter)  {
+					 System.out.println(ballSack[i].toString());
+					 System.out.println(ballSack[i].toString());
 					 return true;
 				 }
 			}
@@ -108,6 +117,11 @@ public class SoccerSim {
 		SoccerSim soccerSim = new SoccerSim();
 		soccerSim.handleMyBalls(args);
 		Timer timer = new Timer();
+		System.out.println("Timer seconds: " + timer.seconds);
+		System.out.println("1xpos: " + ballSack[0].toString());
+
+		System.out.println("2yPos: " + ballSack[1].toString());
+		System.out.println(ballSack.length);
 		//for every ball, test if Ball[i].isStopped
 		//if (Ball[i].isStopped) {
 		// return;
@@ -115,12 +129,15 @@ public class SoccerSim {
 		//i want to say while Balls are not stopped and also on Course, run the method.
 		//while this method is true && while that method is true, run the thing.
 		while (soccerSim.isStillRunning()) {
+			soccerSim.toString();
 			soccerSim.updatePos();
 			soccerSim.updateVelocity();
 			soccerSim.getDistance();
 			if(soccerSim.validCollision()) {
-				System.out.println("yea");
+				System.out.println("Collision Detected...");
+				return;
 			}
+			timer.tick();
 
 		}
 

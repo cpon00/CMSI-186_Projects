@@ -1,5 +1,5 @@
 public class Timer {
-	public static double timeSlice;
+	public static double timeSlice = 1.0;
 	public static double seconds;
 	private double hoursString;
 	private double minutesString;

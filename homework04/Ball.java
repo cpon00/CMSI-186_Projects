@@ -2,10 +2,10 @@ public class Ball {
 	public final static double diameter = 8.9/12;
 	private final static double weight = 1.0; //why is this necessary to know?
 	private final static double friction = 0.99;
-	private double xPos = 0;
-	private double yPos = 0;
-	private double xSpeed = 0;
-	private double ySpeed = 0;
+	public static double xPos = 0;
+	public static double yPos = 0;
+	public double xSpeed = 0;
+	public double ySpeed = 0;
 	public double distanceFromPole = 0;
 
 	//maybe we reuse clock class in timer.java?
@@ -97,7 +97,7 @@ public class Ball {
 	}
 
 	public String toString() {
-		return ("X-Pos: " + this.xPos + "\nY-Pos: " + this.yPos + "\nX-Speed: " + this.xSpeed + "\n Y-Speed: " + this.ySpeed);
+		return ("X-Pos: " + this.xPos + "\nY-Pos: " + this.yPos + "\nX-Speed: " + this.xSpeed + "\nY-Speed: " + this.ySpeed);
 	}
 
 
