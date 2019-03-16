@@ -2,9 +2,8 @@
 //ball ----ball----ball ---- balls
 //asterisk ellipsis method
 //if no collision between first and second ball, you can disregard the first ball as nothing else can collide with it.
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
+import java.util.*;
+
 public class SoccerSim {
 	private static Ball[] ballSack = null;
 	private static double[] distances = null;
@@ -33,10 +32,19 @@ public class SoccerSim {
 			return;
 		}
 	}
+	public static boolean isStillRunning() {
+		return (SoccerSim.isNotOffCourse() && SoccerSim.isNotStopped());
+	}
+
+	public void String toString() {
+		for (int i = 0; i <= ballSack.length; i++) {
+			ballSack[i].toString();
+		}
+	}
 	//maybe a method called move()
 	//for every ball in ball array, updateSpeed, then getxandyPos.
 	public static boolean isNotStopped () {
-		for (int i = 0; i <= ballSack.length;i++) {
+		for (int i = 0; i < ballSack.length;i++) {
 			if (ballSack[i].isStopped()) {
 				return false;
 			}
@@ -44,7 +52,7 @@ public class SoccerSim {
 		return true;
 	}
 	public static boolean isNotOffCourse () {
-		for (int i = 0; i<= ballSack.length;i++) {
+		for (int i = 0; i< ballSack.length;i++) {
 			if (ballSack[i].isOffCourse()) {
 				return false;
 			}
@@ -52,33 +60,48 @@ public class SoccerSim {
 		return true;
 	}
 	public static void updatePos () {
-		for (int i = 0; i <= ballSack.length;i++) {
+		for (int i = 0; i < ballSack.length;i++) {
 			ballSack[i].getxPos();
 			ballSack[i].getyPos();
 		}
 	}
 	public static void updateVelocity () {
-		for (int i = 0; i <= ballSack.length;i++) {
+		for (int i = 0; i < ballSack.length;i++) {
 			ballSack[i].updateSpeed();
 		}
 	}
-	public static double[] getDistance() {
-		for (int i = 0; i <= ballSack.length; i++) {
-			distances[i] = ballSack[i].getDistance(0.0, 0.0);
+	public static void getDistance() {
+		for (int i = 0; i < ballSack.length; i++) {
+			ballSack[i].distanceFromPole = ballSack[i].getDistance(0.0, 0.0);
 			//gets distances of each ball from the pole.
 		}
-		Arrays.sort(distances);
-		return (distances);
+
 		//sorted from least to greatest.
 		//need to use comparators to compare properties of objects.
 	}
-	public static void compareDistances () {
-		for (int i = 0; i <= distances.length; i++) {
-			if (distances[i] - distances[i+1] <= Ball.diameter) {
-
-			}
+	private static class DistanceComparison implements Comparator<Ball> {
+		public int compare(Ball ball1, Ball ball2) {
+			return ball1.getDistance(0,0).compareTo(ball2.getDistance(0,0));
 		}
 	}
+
+
+
+	public static boolean validCollision () {
+		Arrays.sort(ballSack, new DistanceComparison());
+		//sorts the array of balls by their distance from the pole.
+		//edge case: if two equal distances, what happens?
+		for (int i = 0; i <= ballSack.length; i++) {
+			if (Math.abs(ballSack[i].distanceFromPole - ballSack[i + 1].distanceFromPole) <= Ball.diameter) {
+				//return true if distance between balls is less than the diameter.
+				 if (ballSack[i].getDistance(ballSack[i + 1].getxPos(), ballSack[i + 1].getyPos()) <= Ball.diameter)  {
+					 return true;
+				 }
+			}
+		}
+		return false;
+	}
+
 
 
 	public static void main (String args[]) {
@@ -91,11 +114,13 @@ public class SoccerSim {
 		//}
 		//i want to say while Balls are not stopped and also on Course, run the method.
 		//while this method is true && while that method is true, run the thing.
-		while (soccerSim.isNotOffCourse() || soccerSim.isNotStopped()) {
+		while (soccerSim.isStillRunning()) {
 			soccerSim.updatePos();
 			soccerSim.updateVelocity();
 			soccerSim.getDistance();
-			soccerSim.compareDistances();
+			if(soccerSim.validCollision()) {
+				System.out.println("yea");
+			}
 
 		}
 
