@@ -5,7 +5,7 @@
 import java.util.*;
 
 public class SoccerSim {
-	private static Ball[] ballSack = null;
+	static Ball[] ballSack = null;
 	private static double[] distances = null;
 	private static int ball1;
 	private static int ball2;
@@ -19,18 +19,24 @@ public class SoccerSim {
 			System.exit(1);
 		}
 		try {
+			//might be referencing the wrong ballsack...
 			ballSack = new Ball[(int)(Math.floor(args.length/4.0))];
+			System.out.println("Length is; " + ballSack.length);
 			if (args.length % 4 == 1) {
 				//timeSLice = args[args.length - 1];
 				Timer.timeSlice = Double.parseDouble(args[args.length - 1]);
 			}
+			//will need to cut off the last part... doesnt currently work with argument for timeslice.
 
 			for (int i = 0; i < ballSack.length; i++) {
 				for (int k = 0; k < args.length; k += 4) {
 					ballSack[i] = new Ball (Double.parseDouble(args[k]), Double.parseDouble(args[k + 1]),  Double.parseDouble(args[k + 2]),  Double.parseDouble(args[k + 3]));
+					System.out.println(k);
 					System.out.println(ballSack[i].toString() + "\n\n");
+
 				}
 			}
+
 		}catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println ("Invalid Input. Must input in sets of four, with optional argument for timeSlice.");
 
@@ -117,29 +123,29 @@ public class SoccerSim {
 		SoccerSim soccerSim = new SoccerSim();
 		soccerSim.handleMyBalls(args);
 		Timer timer = new Timer();
-		System.out.println("Timer seconds: " + timer.seconds);
+		//System.out.println("Timer seconds: " + timer.seconds);
 		System.out.println("1xpos: " + ballSack[0].toString());
 
 		System.out.println("2yPos: " + ballSack[1].toString());
-		System.out.println(ballSack.length);
+		//System.out.println(ballSack.length);
 		//for every ball, test if Ball[i].isStopped
 		//if (Ball[i].isStopped) {
 		// return;
 		//}
 		//i want to say while Balls are not stopped and also on Course, run the method.
 		//while this method is true && while that method is true, run the thing.
-		while (soccerSim.isStillRunning()) {
-			soccerSim.toString();
-			soccerSim.updatePos();
-			soccerSim.updateVelocity();
-			soccerSim.getDistance();
-			if(soccerSim.validCollision()) {
-				System.out.println("Collision Detected...");
-				return;
-			}
-			timer.tick();
-
-		}
+		// while (soccerSim.isStillRunning()) {
+		// 	soccerSim.toString();
+		// 	soccerSim.updatePos();
+		// 	soccerSim.updateVelocity();
+		// 	soccerSim.getDistance();
+		// 	if(soccerSim.validCollision()) {
+		// 		System.out.println("Collision Detected...");
+		// 		return;
+		// 	}
+		// 	timer.tick();
+		//
+		// }
 
 
 
