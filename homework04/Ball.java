@@ -2,8 +2,8 @@ public class Ball {
 	public final static double diameter = 8.9/12;
 	private final static double weight = 1.0; //why is this necessary to know?
 	private final static double friction = 0.99;
-	public static double xPos = 0;
-	public static double yPos = 0;
+	public double xPos = 0;
+	public double yPos = 0;
 	public double xSpeed = 0;
 	public double ySpeed = 0;
 	public double distanceFromPole = 0;
@@ -18,10 +18,10 @@ public class Ball {
 	//its ok for us to miss those collisions.
 
 	public Ball (double xPos, double yPos, double xSpeed, double ySpeed) {
-		this.xPos = (xPos);
-		this.yPos = (yPos);
-		this.xSpeed = (xSpeed);
-		this.ySpeed = (ySpeed);
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.xSpeed = xSpeed;
+		this.ySpeed = ySpeed;
 	}
 	// public double tick() {
 	// 	seconds += timeSlice;
@@ -40,9 +40,9 @@ public class Ball {
 	//first pos would be horizontal, second would be vertical
 
 	public double getxPos() {
-		for (int i = 1; i <= Timer.seconds; i++) {
-			xPos += xSpeed * Math.pow(friction, i);
-		}
+		double i = Timer.seconds;
+		xPos += xSpeed * Math.pow(friction, i);
+
 		return xPos;
 		//there is an initial horizontal position. must test if seconds is not 0.
 
@@ -50,9 +50,9 @@ public class Ball {
 		//these need to be announced at the beginning and at every tick.
 	}
 	public double getyPos() {
-		for (int i = 1; i <= Timer.seconds; i++) {
-			yPos += ySpeed * Math.pow(friction, i);
-		}
+		double i = Timer.seconds;
+		yPos += ySpeed * Math.pow(friction, i);
+
 		return yPos;
 	}
 	// public static getVerticalPos() {
@@ -67,15 +67,6 @@ public class Ball {
 		xSpeed = xSpeed * Math.pow(friction, Timer.seconds);
 		ySpeed = ySpeed * Math.pow(friction, Timer.seconds);
 	}
-	// i must call updateSpeed before getting the position.
-	//whatever argument is horizontal speed.
-	//for every second we need to reduce the speed by 1%.
-	//this means at one second, speed is reduced by 1%.
-	//at two seconds speed is equal to the speed reduced by 1% then also reduced by another 1%.
-	//friction is just (friction)^however many seconds have passed.
-	//if my speed is 10m/s i multiply it by 1 second then reduce the speed by 1%.
-	//if seconds = 2, i have the horizontal speed already reduced by 1%, plus another
-
 
 	//the getDistance method first must be used to compare to the pole, then used to compare to the ball with a possible collision.
 
@@ -89,11 +80,7 @@ public class Ball {
 	public boolean isStopped() {
 		//stopped is considered as 1/12 fps.
 		//Ball[i].isStopped()?
-		return (this.xSpeed <= 1/12 && this.ySpeed <= 1/12);
-	}
-
-	public boolean isOffCourse() {
-		return (this.xPos > 1000 || this.xPos < -1000 || this.yPos > 1000 || this.yPos < -1000);//if ball pos is greater than or less than bounds of course, and ypos too.
+		return (Math.abs(this.xSpeed) <= 1/12 && Math.abs(this.ySpeed) <= 1/12);
 	}
 
 	public String toString() {
@@ -103,15 +90,13 @@ public class Ball {
 
 	public static void main (String [] args) {
 		Ball ball1 = new Ball(3.0, 4.0, 1.0, 1.0);
-		ball1.getxPos();
-		ball1.getyPos();
 		System.out.println("XPos: " + ball1.xPos + ", " + "YPos: " + ball1.yPos);
 		System.out.println("XSpeed: " + ball1.xSpeed + ", " + "YSpeed: " + ball1.ySpeed);
 		Ball ball2 = new Ball (0.0, 0.0, 0.0, 0.0);
 		Ball ball3 = new Ball (-1000.1, 1000, 0, 0);
 		System.out.println("XPos: " + ball2.xPos + ", " + "YPos: " + ball2.yPos);
 		System.out.println("XSpeed: " + ball2.xSpeed + ", " + "YSpeed: " + ball2.ySpeed);
-		System.out.println("Distance: " + ball1.getDistance(ball2.xPos, ball2.yPos));
+		System.out.println("Distance: " + ball1.getDistance(ball2.getxPos(), ball2.getyPos()));
 		System.out.println(ball1.isStopped());
 		System.out.println(ball2.isStopped());
 		Timer.seconds = 100.0;
@@ -122,7 +107,6 @@ public class Ball {
 		System.out.println("New Pos: " + ball1.xPos + ", " + ball1.yPos);
 		System.out.println(ball1.toString());
 		System.out.println(ball2.toString());
-		System.out.println(ball3.isOffCourse());
 
 	}
 
