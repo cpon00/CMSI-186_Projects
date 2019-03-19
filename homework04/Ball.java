@@ -9,69 +9,34 @@ public class Ball {
 	public double distanceFromPole = 0;
 	public double stopSpeed = 1.0;
 
-	//maybe we reuse clock class in timer.java?
-
-	//ball class will report details of ball: speed, pos, etc.
-	//handle multiple balls in SoccerSim.java
-
-	//not tracking course, but tracking position at every time slice.
-	//perhaps they collide within the timeSlice, but because we check every time slice,
-	//its ok for us to miss those collisions.
-
 	public Ball (double xPos, double yPos, double xSpeed, double ySpeed) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 	}
-	// public double tick() {
-	// 	seconds += timeSlice;
-	// 	return seconds;
-	// }
-	//need to verify all arguments, make sure theyre all numbers.
-	//also need to verify if enough arguments. :invalid arguments, must be sets of four.
-	//if args.length is an odd number, maybe we have an optional argument such as timeSLice.
-	//if args.length - 1 % 4 does not equal zero, we dont have enough arguments.
-	//must mean wrong number of arguments or no specified timeSlice.
-
-//	public static double validatePositionArgs() {
-// validate position arg should actually be in the SoccerSim?
-// 	}
-	//could possibly return arrays for position and speed.
-	//first pos would be horizontal, second would be vertical
 
 	public double getxPos() {
 		xPos += xSpeed * Timer.timeSlice;
 		return xPos;
-		//there is an initial horizontal position. must test if seconds is not 0.
-
-		//return x
-		//these need to be announced at the beginning and at every tick.
 	}
+
 	public double getyPos() {
 		yPos += ySpeed * Timer.timeSlice;
 		return yPos;
 	}
-	// public static getVerticalPos() {
-	// 	//return y
-	// 	//these need to be announced at the beginning and at every tick.
-	// }
-	//will also need to alert velocity of balls in set at every tick; where is it,
-	//how fast is it going, in what direction?
+
 	public void updateSpeed() {
-		//for every second this needs to be reduced by 1%.
-		//there is an initial horizontal speed. must test if seconds = 0;
 		xSpeed = xSpeed * Math.pow(friction, Timer.timeSlice);
 		ySpeed = ySpeed * Math.pow(friction, Timer.timeSlice);
 	}
-
-	//the getDistance method first must be used to compare to the pole, then used to compare to the ball with a possible collision.
 
 	public Double getDistance(double otherX, double otherY) {
 		double ac = (this.yPos - otherY);
 		double cb = (this.xPos - otherX);
 		return Math.hypot(ac, cb);
 	}
+
 
 	public boolean isStopped() {
 		return (Math.abs(xSpeed * 12) <= stopSpeed && Math.abs(ySpeed * 12) <= stopSpeed);
@@ -86,7 +51,6 @@ public class Ball {
 	public String toString() {
 		return ("X-Pos: " + this.xPos + "\nY-Pos: " + this.yPos + "\nX-Speed: " + this.xSpeed + "\nY-Speed: " + this.ySpeed);
 	}
-
 
 	public static void main (String [] args) {
 		Ball ball1 = new Ball(2.0, 3.0, 10.000E-10, 0);

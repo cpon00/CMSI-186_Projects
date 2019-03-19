@@ -61,16 +61,7 @@ public class SoccerSim {
 			ballSack[i].updateSpeed();
 		}
 	}
-	// public static void getDistance() {
-	// 	//gets distances of each ball from the pole.
-	// 	for (int i = 0; i < ballSack.length; i++) {
-	// 		ballSack[i].distanceFromPole = ballSack[i].getDistance(0.0, 0.0);
-	// 		if (ballSack[i].distanceFromPole <= Ball.diameter) {
-	// 			SoccerSim.validCollision();
-	// 			//this is broken, still needs to be implemented...
-	// 		}
-	// 	}
-	// }
+
 	public static boolean validCollision () {
 		boolean collision = false;
 		for (int i = 0; i <= ballSack.length - 2; i++) {
@@ -94,8 +85,9 @@ public class SoccerSim {
 		while (soccerSim.isNotStopped()) {
 			System.out.println("\nTime: " + timer.timerToString());
 			soccerSim.soccerToString();
-			soccerSim.updateVelocity();
 			soccerSim.updatePos();
+			soccerSim.updateVelocity();
+
 			if(soccerSim.validCollision()) {
 				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n\n");
 				soccerSim.soccerToString();

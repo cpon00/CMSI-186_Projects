@@ -27,13 +27,8 @@ Y-Speed: 0.0
 .                                       
 .                                       
 ======================================  
-... Testing SoccerSim class ...                
+... Testing  class ...                
 ======================================  
-
- Initializing SoccerSim...
-
-
-Usage: java SoccerSim <xPos> <yPos> <xSpeed> <ySpeed> [timeSlice]
 .                                       
 .                                       
 ======================================  
