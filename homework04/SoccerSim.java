@@ -6,120 +6,104 @@ import java.util.*;
 
 public class SoccerSim {
 	static Ball[] ballSack = null;
-	//need to initialize flagpole as well.
-	//also need to change timeSlice to
+	public static int ball1;
+	public static int ball2;
 	public void handleMyBalls (String args[]) {
 		System.out.println( "\n Initializing SoccerSim...\n\n");
 		if (0 == args.length) {
-			System.out.println("Sorry, enter arguments in sets of four, plus an optional timeSlice argument.");
 			System.out.println("Usage: java SoccerSim <xPos> <yPos> <xSpeed> <ySpeed> [timeSlice]");
 			System.exit(1);
 		}
-		try {
+
+		if ((args.length < 4) || (args.length % 4 > 1)) {
+			System.out.println("Sorry, invalid input. Please enter arguments in multiples of four, plus an optional timeSlice.");
+			System.out.println("Usage: java SoccerSim <xPos> <yPos> <xSpeed> <ySpeed> [timeSlice]");
+			System.exit(1);
+		}
 			ballSack = new Ball[args.length/4];
 			if (args.length % 4 == 1) {
+				if ((Double.parseDouble(args[args.length - 1])) <= 0.0 || (Double.parseDouble(args[args.length - 1]) > 1800.0)) {
+					throw new IllegalArgumentException ("timeSlice is Invalid.");
+				}
 				Timer.timeSlice = Double.parseDouble(args[args.length - 1]);
 			}
 			for (int k = 0; k < args.length - 1; k += 4) {
 				ballSack[k/4] = new Ball (Double.parseDouble(args[k]), Double.parseDouble(args[k + 1]),  Double.parseDouble(args[k + 2]),  Double.parseDouble(args[k + 3]));
 			}
+	}
 
-
-		}catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println ("Invalid Input. Must input in sets of four, with optional argument for timeSlice.");
-			return;
+	public void soccerToString() {
+		System.out.println("--------------------------------------------------------------------------");
+		for (int i = 0; i < ballSack.length; i++) {
+			System.out.println("Ball Number: " + (i));
+			System.out.println(ballSack[i].toString() + "\n");
 		}
 	}
 
-	public String toString() {
-		String result = "";
-		for (int i = 0; i < ballSack.length; i++) {
-		    System.out.println("Ball" + i + "\n" + ballSack[i].toString() + "\n");
-			result += ballSack[i].toString();
+	public static boolean isNotStopped() {
+		int stopcount = 0;
+		for (int i = 0; i <= ballSack.length - 1; i++) {
+			if (ballSack[i].isStopped()) {
+				stopcount++;
+			}
 		}
-		return result;
-	}
-	//maybe a method called move()
-	//for every ball in ball array, updateSpeed, then getxandyPos.
-	public static boolean isStopped() {
-		boolean stop = true;
-		for (int i = 0; i < ballSack.length; i++) {
-			stop = (stop && ballSack[i].isStopped());
-
-			System.out.println(ballSack[i].toString());
-
-		}
-		System.out.println(stop);
-		return stop;
+		return (stopcount != ballSack.length);
 	}
 
 	public static void updatePos () {
-		for (int i = 0; i < ballSack.length;i++) {
+		for (int i = 0; i < ballSack.length; i++) {
 			ballSack[i].getxPos();
 			ballSack[i].getyPos();
 		}
 	}
 	public static void updateVelocity () {
-		for (int i = 0; i < ballSack.length;i++) {
+		for (int i = 0; i < ballSack.length; i++) {
 			ballSack[i].updateSpeed();
 		}
 	}
-	public static void getDistance() {
-		//gets distances of each ball from the pole.
-		for (int i = 0; i < ballSack.length; i++) {
-			ballSack[i].distanceFromPole = ballSack[i].getDistance(0.0, 0.0);
-			if (ballSack[i].distanceFromPole <= Ball.diameter) {
-				SoccerSim.validCollision();
-				//this is broken, still needs to be implemented...
-			}
-		}
-
-	}
-	private static class DistanceComparison implements Comparator<Ball> {
-		public int compare(Ball ball1, Ball ball2) {
-			return ball1.getDistance(0,0).compareTo(ball2.getDistance(0,0));
-		}
-	}
-
-
-
+	// public static void getDistance() {
+	// 	//gets distances of each ball from the pole.
+	// 	for (int i = 0; i < ballSack.length; i++) {
+	// 		ballSack[i].distanceFromPole = ballSack[i].getDistance(0.0, 0.0);
+	// 		if (ballSack[i].distanceFromPole <= Ball.diameter) {
+	// 			SoccerSim.validCollision();
+	// 			//this is broken, still needs to be implemented...
+	// 		}
+	// 	}
+	// }
 	public static boolean validCollision () {
-		Arrays.sort(ballSack, new DistanceComparison());
-		//sorts the array of balls by their distance from the pole.
-		//edge case: if two equal distances, what happens?
-		for (int i = 0; i < ballSack.length - 1; i++) {
-			if (Math.abs(ballSack[i].distanceFromPole - ballSack[i + 1].distanceFromPole) <= Ball.diameter) {
-				//return true if distance between balls is less than the diameter.
-				 if (ballSack[i].getDistance(ballSack[i + 1].xPos, ballSack[i + 1].yPos) <= Ball.diameter)  {
-					 return true;
-				 }
+		boolean collision = false;
+		for (int i = 0; i <= ballSack.length - 2; i++) {
+			for (int k = i + 1; k <= ballSack.length - 1; k++) {
+				if(ballSack[i].getDistance(ballSack[k].xPos, ballSack[k].yPos) <= Ball.diameter) {
+					if (ballSack[i].isinBounds() && ballSack[k].isinBounds()) {
+						collision = true;
+						ball1 = i;
+						ball2 = k;
+					}
+				}
 			}
 		}
-		return false;
+		return collision;
 	}
-
-
 
 	public static void main (String args[]) {
 		SoccerSim soccerSim = new SoccerSim();
 		Timer timer = new Timer();
 		soccerSim.handleMyBalls(args);
-
-		//i want to say while Balls are not stopped and also on Course, run the method.
-		//while this method is true && while that method is true, run the thing.
-		while (!soccerSim.isStopped()) {
-			soccerSim.updatePos();
+		while (soccerSim.isNotStopped()) {
+			System.out.println("\nTime: " + timer.timerToString());
+			soccerSim.soccerToString();
 			soccerSim.updateVelocity();
-			soccerSim.toString();
-			soccerSim.getDistance();
+			soccerSim.updatePos();
 			if(soccerSim.validCollision()) {
-				System.out.println("\n\n  Collision Detected...\n\n");
-				soccerSim.toString();
+				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n\n");
+				soccerSim.soccerToString();
 				return;
 			}
 			timer.tick();
-
 		}
+		System.out.println("No Collision found.");
 
 
 

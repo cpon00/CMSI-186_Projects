@@ -1,20 +1,23 @@
+import java.util.*;
 public class Timer {
 	public static double timeSlice = 1.0;
 	public static double seconds;
-	private double hoursString;
-	private double minutesString;
-	private double secondsString;
+	private static int hoursString;
+	private static int minutesString;
+	private static int secondsString;
 	public Timer() {
 		//this means i have to initialize Timer after SoccerSim and handleMyBalls
 		//this also means that I need to set the Ball.java timeSlice to the Timer.java timeSlice
 		//initialize Ball.java before
+
+
+		//timeslice must be less than or equal to 1800....
 	}
 	public double tick() {
 		seconds += timeSlice;
-
 		return seconds;
 	}
-	public String toString() {
+	public static String timerToString() {
         //take total number of seconds value
         //create another variable that is equal to current total number of seconds
         //from the total seconds, subtract hours and subtract minutes to get seconds mod 60.

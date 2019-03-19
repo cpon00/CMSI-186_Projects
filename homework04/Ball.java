@@ -7,6 +7,7 @@ public class Ball {
 	public double xSpeed = 0;
 	public double ySpeed = 0;
 	public double distanceFromPole = 0;
+	public double stopSpeed = 1.0;
 
 	//maybe we reuse clock class in timer.java?
 
@@ -40,9 +41,7 @@ public class Ball {
 	//first pos would be horizontal, second would be vertical
 
 	public double getxPos() {
-		double i = Timer.seconds;
-		xPos += xSpeed * Math.pow(friction, i);
-
+		xPos += xSpeed * Timer.timeSlice;
 		return xPos;
 		//there is an initial horizontal position. must test if seconds is not 0.
 
@@ -50,9 +49,7 @@ public class Ball {
 		//these need to be announced at the beginning and at every tick.
 	}
 	public double getyPos() {
-		double i = Timer.seconds;
-		yPos += ySpeed * Math.pow(friction, i);
-
+		yPos += ySpeed * Timer.timeSlice;
 		return yPos;
 	}
 	// public static getVerticalPos() {
@@ -64,23 +61,26 @@ public class Ball {
 	public void updateSpeed() {
 		//for every second this needs to be reduced by 1%.
 		//there is an initial horizontal speed. must test if seconds = 0;
-		xSpeed = xSpeed * Math.pow(friction, Timer.seconds);
-		ySpeed = ySpeed * Math.pow(friction, Timer.seconds);
+		xSpeed = xSpeed * Math.pow(friction, Timer.timeSlice);
+		ySpeed = ySpeed * Math.pow(friction, Timer.timeSlice);
 	}
 
 	//the getDistance method first must be used to compare to the pole, then used to compare to the ball with a possible collision.
 
 	public Double getDistance(double otherX, double otherY) {
-		double ac = Math.abs (this.yPos - otherY);
-		double cb = Math.abs (this.xPos - otherX);
-		//return Math.sqrt((yPos - otherY) * (yPos - otherY) + (xPos - otherX) * (xPos - otherX));
+		double ac = (this.yPos - otherY);
+		double cb = (this.xPos - otherX);
 		return Math.hypot(ac, cb);
 	}
 
 	public boolean isStopped() {
-		//stopped is considered as 1/12 fps.
-		//Ball[i].isStopped()?
-		return (Math.abs(this.xSpeed) <= 1/12 && Math.abs(this.ySpeed) <= 1/12);
+		return (Math.abs(xSpeed * 12) <= stopSpeed && Math.abs(ySpeed * 12) <= stopSpeed);
+	}
+
+	public boolean isinBounds() {
+		System.out.println(xPos);
+		System.out.println(yPos);
+		return (xPos < 1000.0 && xPos > -1000.0 && yPos < 1000.0 && yPos > -1000.0);
 	}
 
 	public String toString() {
@@ -89,16 +89,17 @@ public class Ball {
 
 
 	public static void main (String [] args) {
-		Ball ball1 = new Ball(3.0, 4.0, 1.0, 1.0);
+		Ball ball1 = new Ball(2.0, 3.0, 10.000E-10, 0);
 		System.out.println("XPos: " + ball1.xPos + ", " + "YPos: " + ball1.yPos);
 		System.out.println("XSpeed: " + ball1.xSpeed + ", " + "YSpeed: " + ball1.ySpeed);
-		Ball ball2 = new Ball (0.0, 0.0, 0.0, 0.0);
+		Ball ball2 = new Ball (-1.0, -1.0, 0.0, 0.0);
 		Ball ball3 = new Ball (-1000.1, 1000, 0, 0);
 		System.out.println("XPos: " + ball2.xPos + ", " + "YPos: " + ball2.yPos);
 		System.out.println("XSpeed: " + ball2.xSpeed + ", " + "YSpeed: " + ball2.ySpeed);
 		System.out.println("Distance: " + ball1.getDistance(ball2.getxPos(), ball2.getyPos()));
 		System.out.println(ball1.isStopped());
 		System.out.println(ball2.isStopped());
+		System.out.println(ball3.isinBounds());
 		Timer.seconds = 100.0;
 		ball1.getxPos();
 		ball1.getyPos();
