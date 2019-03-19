@@ -1,15 +1,11 @@
-//if you sort the balls by distance from 1st ball, you only need to go through iteration once for the first ball
-//ball ----ball----ball ---- balls
-//asterisk ellipsis method
-//if no collision between first and second ball, you can disregard the first ball as nothing else can collide with it.
 import java.util.*;
-
 public class SoccerSim {
 	static Ball[] ballSack = null;
 	public static int ball1;
 	public static int ball2;
 	public void handleMyBalls (String args[]) {
 		System.out.println( "\n Initializing SoccerSim...\n\n");
+
 		if (0 == args.length) {
 			System.out.println("Usage: java SoccerSim <xPos> <yPos> <xSpeed> <ySpeed> [timeSlice]");
 			System.exit(1);
@@ -20,23 +16,15 @@ public class SoccerSim {
 			System.out.println("Usage: java SoccerSim <xPos> <yPos> <xSpeed> <ySpeed> [timeSlice]");
 			System.exit(1);
 		}
-			ballSack = new Ball[args.length/4];
-			if (args.length % 4 == 1) {
-				if ((Double.parseDouble(args[args.length - 1])) <= 0.0 || (Double.parseDouble(args[args.length - 1]) > 1800.0)) {
-					throw new IllegalArgumentException ("timeSlice is Invalid.");
-				}
-				Timer.timeSlice = Double.parseDouble(args[args.length - 1]);
+		ballSack = new Ball[args.length/4];
+		if (args.length % 4 == 1) {
+			if ((Double.parseDouble(args[args.length - 1])) <= 0.0 || (Double.parseDouble(args[args.length - 1]) > 1800.0)) {
+				throw new IllegalArgumentException ("timeSlice is Invalid.");
 			}
-			for (int k = 0; k < args.length - 1; k += 4) {
-				ballSack[k/4] = new Ball (Double.parseDouble(args[k]), Double.parseDouble(args[k + 1]),  Double.parseDouble(args[k + 2]),  Double.parseDouble(args[k + 3]));
-			}
-	}
-
-	public void soccerToString() {
-		System.out.println("--------------------------------------------------------------------------");
-		for (int i = 0; i < ballSack.length; i++) {
-			System.out.println("Ball Number: " + (i));
-			System.out.println(ballSack[i].toString() + "\n");
+			Timer.timeSlice = Double.parseDouble(args[args.length - 1]);
+		}
+		for (int k = 0; k < args.length - 1; k += 4) {
+			ballSack[k/4] = new Ball (Double.parseDouble(args[k]), Double.parseDouble(args[k + 1]),  Double.parseDouble(args[k + 2]),  Double.parseDouble(args[k + 3]));
 		}
 	}
 
@@ -56,6 +44,7 @@ public class SoccerSim {
 			ballSack[i].getyPos();
 		}
 	}
+
 	public static void updateVelocity () {
 		for (int i = 0; i < ballSack.length; i++) {
 			ballSack[i].updateSpeed();
@@ -77,6 +66,24 @@ public class SoccerSim {
 		}
 		return collision;
 	}
+	public static boolean poleCollision () {
+		boolean pole = false;
+		for (int i = 0; i <= ballSack.length - 1; i++) {
+			if (ballSack[i].getDistance(0.0, 0.0) <= Ball.diameter) {
+				pole = true;
+				ball1 = i;
+			}
+		}
+		return pole;
+	}
+
+	public void soccerToString() {
+			System.out.println("--------------------------------------------------------------------------");
+			for (int i = 0; i < ballSack.length; i++) {
+				System.out.println("Ball Number: " + (i));
+				System.out.println(ballSack[i].toString() + "\n");
+			}
+		}
 
 	public static void main (String args[]) {
 		SoccerSim soccerSim = new SoccerSim();
@@ -90,6 +97,11 @@ public class SoccerSim {
 
 			if(soccerSim.validCollision()) {
 				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n\n");
+				soccerSim.soccerToString();
+				return;
+			}
+			if (soccerSim.poleCollision()) {
+				System.out.println("\n\n Collision Detected Between Ball " + ball1 + " and Pole at (0,0). " );
 				soccerSim.soccerToString();
 				return;
 			}
