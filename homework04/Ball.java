@@ -2,11 +2,10 @@ public class Ball {
 	public final static double diameter = 8.9/12;
 	private final static double weight = 1.0; //why is this necessary to know?
 	private final static double friction = 0.99;
-	public double xPos = 0;
-	public double yPos = 0;
-	public double xSpeed = 0;
-	public double ySpeed = 0;
-	public double distanceFromPole = 0;
+	public double xPos;
+	public double yPos;
+	public double xSpeed;
+	public double ySpeed;
 	public double stopSpeed = 1.0;
 
 	public Ball (double xPos, double yPos, double xSpeed, double ySpeed) {
@@ -32,8 +31,8 @@ public class Ball {
 	}
 
 	public Double getDistance(double otherX, double otherY) {
-		double ac = (this.yPos - otherY);
-		double cb = (this.xPos - otherX);
+		double ac = (yPos - otherY);
+		double cb = (xPos - otherX);
 		return Math.hypot(ac, cb);
 	}
 
@@ -42,14 +41,14 @@ public class Ball {
 		return (Math.abs(xSpeed * 12) <= stopSpeed && Math.abs(ySpeed * 12) <= stopSpeed);
 	}
 
-	public boolean isinBounds() {
+	public boolean isInBounds() {
 		System.out.println(xPos);
 		System.out.println(yPos);
 		return (xPos < 1000.0 && xPos > -1000.0 && yPos < 1000.0 && yPos > -1000.0);
 	}
 
 	public String toString() {
-		return ("X-Pos: " + this.xPos + "\nY-Pos: " + this.yPos + "\nX-Speed: " + this.xSpeed + "\nY-Speed: " + this.ySpeed);
+		return ("X-Pos: " + xPos + "\nY-Pos: " + yPos + "\nX-Speed: " + xSpeed + "\nY-Speed: " + ySpeed);
 	}
 
 	public static void main (String [] args) {
@@ -63,7 +62,7 @@ public class Ball {
 		System.out.println("Distance: " + ball1.getDistance(ball2.getxPos(), ball2.getyPos()));
 		System.out.println(ball1.isStopped());
 		System.out.println(ball2.isStopped());
-		System.out.println(ball3.isinBounds());
+		System.out.println(ball3.isInBounds());
 		Timer.seconds = 100.0;
 		ball1.getxPos();
 		ball1.getyPos();

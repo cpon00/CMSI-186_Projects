@@ -56,7 +56,7 @@ public class SoccerSim {
 		for (int i = 0; i <= ballSack.length - 2; i++) {
 			for (int k = i + 1; k <= ballSack.length - 1; k++) {
 				if(ballSack[i].getDistance(ballSack[k].xPos, ballSack[k].yPos) <= Ball.diameter) {
-					if (ballSack[i].isinBounds() && ballSack[k].isinBounds()) {
+					if (ballSack[i].isInBounds() && ballSack[k].isInBounds()) {
 						collision = true;
 						ball1 = i;
 						ball2 = k;
@@ -66,16 +66,16 @@ public class SoccerSim {
 		}
 		return collision;
 	}
-	public static boolean poleCollision () {
-		boolean pole = false;
-		for (int i = 0; i <= ballSack.length - 1; i++) {
-			if (ballSack[i].getDistance(0.0, 0.0) <= Ball.diameter) {
-				pole = true;
-				ball1 = i;
-			}
-		}
-		return pole;
-	}
+	// public static boolean poleCollision () {
+	// 	boolean pole = false;
+	// 	for (int i = 0; i <= ballSack.length - 1; i++) {
+	// 		if (ballSack[i].getDistance(0.0, 0.0) <= Ball.diameter) {
+	// 			pole = true;
+	// 			ball1 = i;
+	// 		}
+	// 	}
+	// 	return pole;
+	// }
 
 	public void soccerToString() {
 			System.out.println("--------------------------------------------------------------------------");
@@ -94,17 +94,16 @@ public class SoccerSim {
 			soccerSim.soccerToString();
 			soccerSim.updatePos();
 			soccerSim.updateVelocity();
-
 			if(soccerSim.validCollision()) {
-				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n\n");
+				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n" + "at Time: " + timer.timerToString());
 				soccerSim.soccerToString();
 				return;
 			}
-			if (soccerSim.poleCollision()) {
-				System.out.println("\n\n Collision Detected Between Ball " + ball1 + " and Pole at (0,0). " );
-				soccerSim.soccerToString();
-				return;
-			}
+			// if (soccerSim.poleCollision()) {
+			// 	System.out.println("\n\n Collision Detected Between Ball " + ball1 + " and Pole at (0,0). " );
+			// 	soccerSim.soccerToString();
+			// 	return;
+			// }
 			timer.tick();
 		}
 		System.out.println("No Collision found.");

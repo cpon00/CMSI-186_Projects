@@ -40967,3 +40967,134 @@ No Collision found.
 ======================================  
 ... End of SoccerSim Testing...         
 ====================================== 
+
+ Initializing SoccerSim...
+
+
+
+Time: 0:00:00
+--------------------------------------------------------------------------
+Ball Number: 0
+X-Pos: 150.0
+Y-Pos: 150.0
+X-Speed: 10.0
+Y-Speed: 10.0
+
+Ball Number: 1
+X-Pos: 100.0
+Y-Pos: 100.0
+X-Speed: -100.0
+Y-Speed: -100.0
+
+Ball Number: 2
+X-Pos: 200.0
+Y-Pos: 200.0
+X-Speed: 200.0
+Y-Speed: 200.0
+
+Ball Number: 3
+X-Pos: 250.0
+Y-Pos: 250.0
+X-Speed: -110.0
+Y-Speed: -110.0
+
+Ball Number: 4
+X-Pos: 20.0
+Y-Pos: 20.0
+X-Speed: 1.0
+Y-Speed: 1.0
+
+Ball Number: 5
+X-Pos: 50.0
+Y-Pos: 50.0
+X-Speed: -5.0
+Y-Speed: -5.0
+
+Ball Number: 6
+X-Pos: -100.0
+Y-Pos: -100.0
+X-Speed: 200.0
+Y-Speed: 200.0
+
+Ball Number: 7
+X-Pos: -200.0
+Y-Pos: -200.0
+X-Speed: 300.0
+Y-Speed: 300.0
+
+Ball Number: 8
+X-Pos: -110.0
+Y-Pos: -110.0
+X-Speed: 20.0
+Y-Speed: 20.0
+
+Ball Number: 9
+X-Pos: 1.0
+Y-Pos: 1.0
+X-Speed: 50.0
+Y-Speed: 50.0
+
+
+
+ Collision Detected Between Ball 5 and Pole at (0,0). 
+--------------------------------------------------------------------------
+Ball Number: 0
+X-Pos: 250.0
+Y-Pos: 250.0
+X-Speed: 9.043820750088043
+Y-Speed: 9.043820750088043
+
+Ball Number: 1
+X-Pos: -900.0
+Y-Pos: -900.0
+X-Speed: -90.43820750088044
+Y-Speed: -90.43820750088044
+
+Ball Number: 2
+X-Pos: 2200.0
+Y-Pos: 2200.0
+X-Speed: 180.87641500176088
+Y-Speed: 180.87641500176088
+
+Ball Number: 3
+X-Pos: -850.0
+Y-Pos: -850.0
+X-Speed: -99.48202825096848
+Y-Speed: -99.48202825096848
+
+Ball Number: 4
+X-Pos: 30.0
+Y-Pos: 30.0
+X-Speed: 0.9043820750088044
+Y-Speed: 0.9043820750088044
+
+Ball Number: 5
+X-Pos: 0.0
+Y-Pos: 0.0
+X-Speed: -4.521910375044022
+Y-Speed: -4.521910375044022
+
+Ball Number: 6
+X-Pos: 1900.0
+Y-Pos: 1900.0
+X-Speed: 180.87641500176088
+Y-Speed: 180.87641500176088
+
+Ball Number: 7
+X-Pos: 2800.0
+Y-Pos: 2800.0
+X-Speed: 271.3146225026413
+Y-Speed: 271.3146225026413
+
+Ball Number: 8
+X-Pos: 90.0
+Y-Pos: 90.0
+X-Speed: 18.087641500176087
+Y-Speed: 18.087641500176087
+
+Ball Number: 9
+X-Pos: 501.0
+Y-Pos: 501.0
+X-Speed: 45.21910375044022
+Y-Speed: 45.21910375044022
+
