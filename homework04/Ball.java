@@ -1,18 +1,25 @@
 public class Ball {
-	public final static double diameter = 8.9/12;
-	private final static double weight = 1.0; //why is this necessary to know?
-	private final static double friction = 0.99;
+	public static double diameter;
+	private static double weight = 1.0; //why is this necessary to know?
+	private static double friction;
 	public double xPos;
 	public double yPos;
 	public double xSpeed;
 	public double ySpeed;
 	public double stopSpeed = 1.0;
+	public boolean validBall;
 
 	public Ball (double xPos, double yPos, double xSpeed, double ySpeed) {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
+		this.stopSpeed = 1.0;
+		this.diameter = 8.9/12;
+		this.weight = 1.0;
+		this.friction = 0.99;
+		this.validBall = true;
+
 	}
 
 	public double getxPos() {
@@ -42,8 +49,6 @@ public class Ball {
 	}
 
 	public boolean isInBounds() {
-		System.out.println(xPos);
-		System.out.println(yPos);
 		return (xPos < 1000.0 && xPos > -1000.0 && yPos < 1000.0 && yPos > -1000.0);
 	}
 

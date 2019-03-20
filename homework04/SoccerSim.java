@@ -28,14 +28,20 @@ public class SoccerSim {
 		}
 	}
 
-	public static boolean isNotStopped() {
-		int stopcount = 0;
+	public static boolean isStopped() {
+		boolean stopcount = true;
 		for (int i = 0; i <= ballSack.length - 1; i++) {
-			if (ballSack[i].isStopped()) {
-				stopcount++;
-			}
+			stopcount =  (stopcount && (ballSack[i].isStopped() || !ballSack[i].isInBounds()));
 		}
-		return (stopcount != ballSack.length);
+		return (stopcount);
+	}
+
+	public static boolean allOutOfBounds() {
+		boolean outsidebounds = true;
+		for (int i = 0; i <= ballSack.length - 1; i++) {
+			outsidebounds = (outsidebounds && (!ballSack[i].isInBounds() || ballSack[i].isStopped()));
+		}
+		return outsidebounds;
 	}
 
 	public static void updatePos () {
@@ -66,16 +72,17 @@ public class SoccerSim {
 		}
 		return collision;
 	}
-	// public static boolean poleCollision () {
-	// 	boolean pole = false;
-	// 	for (int i = 0; i <= ballSack.length - 1; i++) {
-	// 		if (ballSack[i].getDistance(0.0, 0.0) <= Ball.diameter) {
-	// 			pole = true;
-	// 			ball1 = i;
-	// 		}
-	// 	}
-	// 	return pole;
-	// }
+
+	public static boolean poleCollision () {
+		boolean pole = false;
+		for (int i = 0; i <= ballSack.length - 1; i++) {
+			if (ballSack[i].getDistance(1000.0, 1000.0) <= Ball.diameter) {
+				pole = true;
+				ball1 = i;
+			}
+		}
+		return pole;
+	}
 
 	public void soccerToString() {
 			System.out.println("--------------------------------------------------------------------------");
@@ -89,57 +96,33 @@ public class SoccerSim {
 		SoccerSim soccerSim = new SoccerSim();
 		Timer timer = new Timer();
 		soccerSim.handleMyBalls(args);
-		while (soccerSim.isNotStopped()) {
+		do {
 			System.out.println("\nTime: " + timer.timerToString());
-			soccerSim.soccerToString();
-			soccerSim.updatePos();
-			soccerSim.updateVelocity();
 			if(soccerSim.validCollision()) {
-				System.out.println("\n\n  Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n" + "at Time: " + timer.timerToString());
+				System.out.println("\n Collision Detected Between Ball " + ball1 + " and Ball " + ball2 + "\n" + "at Time: " + timer.timerToString());
 				soccerSim.soccerToString();
 				return;
 			}
-			// if (soccerSim.poleCollision()) {
-			// 	System.out.println("\n\n Collision Detected Between Ball " + ball1 + " and Pole at (0,0). " );
-			// 	soccerSim.soccerToString();
-			// 	return;
-			// }
+			if (soccerSim.poleCollision()) {
+				System.out.println("\n\n Collision Detected Between Ball " + ball1 + " and Pole at (0,0). " );
+				soccerSim.soccerToString();
+				return;
+			}
+			soccerSim.soccerToString();
+			if (Timer.timeSlice != 1) {
+				soccerSim.updateVelocity();
+				soccerSim.updatePos();
+			}else{
+				soccerSim.updatePos();
+				soccerSim.updateVelocity();
+			}
+
+
 			timer.tick();
-		}
+		} while (!soccerSim.isStopped() && !soccerSim.allOutOfBounds());
 		System.out.println("No Collision found.");
-
-
-
-		//get Pos of every ball
-		//compare disntance to pole
-		//then distance is less than diameter; test for exact ball contact
-		//if collide, then stop sim.
-
-		//need to track if the Ball is OffCourse; if is, then stop simulation.
-		//need to track if Ball is in motion; if all balls stop, then stop simulation.
-		//for every timeSlice, we need to check the distance between every ball and the pole.
-		//if the distance is within 8.9, then we need to check the distance between those two balls, or three balls.
-
-		//i must call updateSpeed before getyPos and getxPos, then call toString to get every ball.
-		//then, must determine distance from every ball to pole.
-
-		//every tick, track isStopped and isOffCourse for every ball.
-		//
-
+		if (soccerSim.allOutOfBounds() || soccerSim.isStopped()) {
+			System.out.println("\nAll balls are invalid.");
+		}
 	}
-
-
 }
-//need to initialize size of field; xsize and ysize
-
-
-//Timer:
-
-//create new instances of ball
-//args.length needs to be either divisible by four, or args.length-1 mod 4 needs to equal one to be a valid input.
-
-
-
-//if getDistance is less than 8.9 between any ball, they have collided.
-//sort the array of balls by distance from the first ball.
-//if the distance between the first and second ball is not
