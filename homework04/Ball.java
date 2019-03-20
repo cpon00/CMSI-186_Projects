@@ -19,7 +19,6 @@ public class Ball {
 		this.weight = 1.0;
 		this.friction = 0.99;
 		this.validBall = true;
-
 	}
 
 	public double getxPos() {
@@ -42,7 +41,6 @@ public class Ball {
 		double cb = (xPos - otherX);
 		return Math.hypot(ac, cb);
 	}
-
 
 	public boolean isStopped() {
 		return (Math.abs(xSpeed * 12) <= stopSpeed && Math.abs(ySpeed * 12) <= stopSpeed);
@@ -76,20 +74,5 @@ public class Ball {
 		System.out.println("New Pos: " + ball1.xPos + ", " + ball1.yPos);
 		System.out.println(ball1.toString());
 		System.out.println(ball2.toString());
-
 	}
-
-	//move, updateVelocity, isinmotion, get location, get speed , to String, main, isinBounds,
-
-
-	//there is also a pole that we need to announce?
-
-	//simulation will occur until all balls go off the field or all balls come to rest.
-	//if no collision, alert no collision possible.
-
-//need to make a method that changes the ball (x, y) every tick
-// by the speed specified.
-//this value needs to change by 1% less every tick.
-
-
 }

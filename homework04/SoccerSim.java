@@ -85,12 +85,12 @@ public class SoccerSim {
 	}
 
 	public void soccerToString() {
-			System.out.println("--------------------------------------------------------------------------");
-			for (int i = 0; i < ballSack.length; i++) {
-				System.out.println("Ball Number: " + (i));
-				System.out.println(ballSack[i].toString() + "\n");
-			}
+		System.out.println("--------------------------------------------------------------------------");
+		for (int i = 0; i < ballSack.length; i++) {
+			System.out.println("Ball Number: " + (i));
+			System.out.println(ballSack[i].toString() + "\n");
 		}
+	}
 
 	public static void main (String args[]) {
 		SoccerSim soccerSim = new SoccerSim();
@@ -116,8 +116,6 @@ public class SoccerSim {
 				soccerSim.updatePos();
 				soccerSim.updateVelocity();
 			}
-
-
 			timer.tick();
 		} while (!soccerSim.isStopped() && !soccerSim.allOutOfBounds());
 		System.out.println("No Collision found.");
