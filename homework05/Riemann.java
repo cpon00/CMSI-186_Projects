@@ -61,36 +61,62 @@ public class Riemann {
 	public static double numberOfRectangles;
 
 	public Riemann () {
-		this.percentage = 0.01;
+		this.percentage = 1;
 		this.numberOfRectangles = 1.0;
 	}
 
     public void argumentHandler (String[] args) {
 		if (args[args.length - 1].contains("%")) {
-			percentage = Double.parseDouble(args[args.length - 1].substring(0, args[args.length - 1].length() - 2));
-			coefficients = new double[args.length - 4];
+			try {
+			percentage = Double.parseDouble(args[args.length - 1].substring(0, args[args.length - 1].length() - 1));
+		    }catch (Exception e) {
+				throw new IllegalArgumentException ("Percentage value is invalid. Try again.");
+		    }
+			try{
+				coefficients = new double[args.length - 4];
+			}catch (Exception e) {
+				throw new IllegalArgumentException ("Invalid number of arguments for percentage specified. Try again.");
+			}
+			if (coefficients.length == 0) {
+				throw new IllegalArgumentException ("Must enter coefficient arguments. For example: if trying to find sin(x), enter: java Riemann sin 0 1");
+			}
 			//BY DEFAULT, THERE ARE THREE ARGUMENTS WE IGNORE; THE FUNCTION TYPE, AND THE UPPER AND LOWER BOUNDS.
 			//IF PERCENTAGE SPECIFIED, NEED TO IGNORE AN EXTRA ARGUMENT.
-			lowerBound = Double.parseDouble(args[args.length - 3]);
-			upperBound = Double.parseDouble(args[args.length - 2]);
-			for (int i = 1; i < args.length - 2; i++) {
-				coefficients[i - 1] = Double.parseDouble(args[i]);
-				//3
-				//NOW, COEFFICIENTS HOLDS THE ARGUMENTS NECESSARY TO BUILD THE FUNCTION.
-				//ARGUMENT LENGTH - 3 REPRESENTS TOTAL ARGS MINUS THE PERCENTAGE VALUE MINUS THE UPPER AND LOWER BOUNDS; STARTS AT 1 TO NULLIFY ARGS[0].
+			try {
+				lowerBound = Double.parseDouble(args[args.length - 3]);
+				upperBound = Double.parseDouble(args[args.length - 2]);
+				for (int i = 1; i < args.length - 3; i++) {
+					coefficients[i - 1] = Double.parseDouble(args[i]);
+					//NOW, COEFFICIENTS HOLDS THE ARGUMENTS NECESSARY TO BUILD THE FUNCTION.
+					//ARGUMENT LENGTH - 3 REPRESENTS TOTAL ARGS MINUS THE PERCENTAGE VALUE MINUS THE UPPER AND LOWER BOUNDS; STARTS AT 1 TO NULLIFY ARGS[0].
+				}
+			}catch (Exception e) {
+				throw new IllegalArgumentException ("Arguments with percentage specified are invalid. Try again.");
 			}
 		}else{
-			coefficients = new double[args.length - 3];
-			//BY DEFAULT THERE ARE 3 ARGUMENTS WE HAVE TO IGNORE.
-			lowerBound = Double.parseDouble(args[args.length - 2]);
-			upperBound = Double.parseDouble(args[args.length - 1]);
-			for (int i = 1; i < args.length - 2; i++) {
-				coefficients[i - 1] = Double.parseDouble(args[i]);
-				//NOW, COEFFICIENTS HOLDS THE ARGUMENTS NECESSARY TO BUILD THE FUNCTION.
-				//AS PERCENTAGE VALUE IS NOT SPECIFIED, ARGUMENT LENGTH - 2 REPRESENTS TOTAL ARGS MINUS THE LOWER AND UPPER BOUNDS; STARTS AT 1 TO NULLIFY ARGS[0].
+			try {
+				coefficients = new double[args.length - 3];
+			} catch (Exception e) {
+				throw new IllegalArgumentException ("Invalid number of arguments for default percentage.");
 			}
+			if (coefficients.length == 0) {
+				throw new IllegalArgumentException ("Must enter coefficient arguments. For example: if trying to find sin(x), enter: java Riemann sin 0 1");
+			}
+			try {
+				//BY DEFAULT THERE ARE 3 ARGUMENTS WE HAVE TO IGNORE.
+				lowerBound = Double.parseDouble(args[args.length - 2]);
+				upperBound = Double.parseDouble(args[args.length - 1]);
+				for (int i = 1; i < args.length - 2; i++) {
+					coefficients[i - 1] = Double.parseDouble(args[i]);
+					//NOW, COEFFICIENTS HOLDS THE ARGUMENTS NECESSARY TO BUILD THE FUNCTION.
+					//AS PERCENTAGE VALUE IS NOT SPECIFIED, ARGUMENT LENGTH - 2 REPRESENTS TOTAL ARGS MINUS THE LOWER AND UPPER BOUNDS; STARTS AT 1 TO NULLIFY ARGS[0].
+				}
+			}catch (Exception e) {
+				throw new IllegalArgumentException ("Arguments with default percentage are invalid. Try again.");
+			}
+
+
 		}
-		width = (Math.hypot(0, upperBound - lowerBound));
 
 		switch(args[0]) {
 			case "poly" :
@@ -99,6 +125,21 @@ public class Riemann {
 			case "sin" :
 			    Riemann.sin();
 			    break;
+			case "cos" :
+				Riemann.cos();
+				break;
+			case "tan" :
+				Riemann.tan();
+				break;
+			case "csc" :
+				Riemann.csc();
+				break;
+			case "sec" :
+				Riemann.sec();
+				break;
+			case "cot" :
+				Riemann.cot();
+				break;
 			case "log" :
 			    Riemann.log();
 			    break;
@@ -109,7 +150,7 @@ public class Riemann {
 			    Riemann.sqrt();
 			    break;
 			default:
-			    throw new IllegalArgumentException ("Invalid function type.");
+			    throw new IllegalArgumentException ("This type of function is not supported by the program.");
 				//if not a valid type, should break the statement.
 		}
 	}
@@ -124,17 +165,14 @@ public class Riemann {
  Step 6: Multiply that yValue by the width of the rectangle to find area of one rectangle.
  Step 7: Add up all of the areas of the rectangles to find the approximate area.
  Step 8: Increase the number of rectangles until current divided by previous is less than the percent value.
-
  */
 
-
-
 	public static double poly () {
-		//try recursion.
-		//i know upperbound and lowerbound and i also have a list of coefficients.
 		width = Math.abs(upperBound) + Math.abs(lowerBound);
 		do {
 			previousArea = currentArea;
+			currentArea = 0;
+
 			//should set previousArea to 0.
 			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
 				//i represents the xValue. now, we find the yValue.
@@ -142,41 +180,213 @@ public class Riemann {
 					height += coefficients[k] * Math.pow(i, k);
 				}
 				currentArea += height * width/numberOfRectangles;
+				height = 0;
 				//now we have found the area of one rectangle.
 				//will iterate through until currentArea represents all areas of all rectangles.
 			}
 			numberOfRectangles += 1.0;
-
-		}while (currentArea/previousArea <= percentage && previousArea != 0.0);
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
 		return (currentArea);
 	}
 
 	public static double sin () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
 		do {
+			previousArea = currentArea;
+			currentArea = 0;
 
-		}while(currentArea/previousArea <= percentage);
-		return 0.0;
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += Math.sin(height) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
+	}
+
+	public static double cos () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		do {
+			previousArea = currentArea;
+			currentArea = 0;
+
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+
+				currentArea += Math.cos(height) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
+	}
+
+	public static double tan () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		do {
+			previousArea = currentArea;
+			currentArea = 0;
+
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += (Math.sin(height)/Math.cos(height)) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
+	}
+
+	public static double csc () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		do {
+			previousArea = currentArea;
+			currentArea = 0;
+
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += (1.0/Math.sin(height)) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
+	}
+
+	public static double sec () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		do {
+			previousArea = currentArea;
+			currentArea = 0;
+
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+
+				currentArea += (1/Math.cos(height)) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
+	}
+
+	public static double cot () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		do {
+			previousArea = currentArea;
+			currentArea = 0;
+
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += (Math.cos(height)/Math.sin(height)) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
 	}
 
 	public static double log () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
 		do {
+			previousArea = currentArea;
+			currentArea = 0;
 
-		}while(currentArea/previousArea <= percentage);
-		return 0.0;
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += Math.log(height) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
 	}
 
 	public static double exp () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
 		do {
+			previousArea = currentArea;
+			currentArea = 0;
 
-		}while(currentArea/previousArea <= percentage);
-		return 0.0;
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += Math.exp(height) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
 	}
 
 	public static double sqrt () {
+		width = Math.abs(upperBound) + Math.abs(lowerBound);
 		do {
+			previousArea = currentArea;
+			currentArea = 0;
 
-		}while(currentArea/previousArea <= percentage);
-		return 0.0;
+			//should set previousArea to 0.
+			for (double i = (lowerBound + width/numberOfRectangles)/2.0; i < upperBound; i += width/numberOfRectangles) {
+				//i represents the xValue. now, we find the yValue.
+				for (int k = 0; k < coefficients.length; k++) {
+					height += coefficients[k] * Math.pow(i, k);
+				}
+				currentArea += Math.sqrt(height) * width/numberOfRectangles;
+				height = 0;
+				//now we have found the area of one rectangle.
+				//will iterate through until currentArea represents all areas of all rectangles.
+			}
+			numberOfRectangles += 1.0;
+		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
+		return (currentArea);
 	}
 	public static void main (String[] args) {
 		Riemann riemann = new Riemann();
