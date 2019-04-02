@@ -121,8 +121,6 @@ public class Riemann {
 				throw new IllegalArgumentException ("Arguments with default percentage are invalid. Try again.");
 			}
 			if (lowerBound > upperBound) {
-				System.out.println(lowerBound);
-				System.out.println(upperBound);
 				throw new IllegalArgumentException ("Upperbound must be greater than lowerBound");
 			}
 		}
@@ -177,16 +175,15 @@ public class Riemann {
  */
 
 	public static double poly () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
+			double xValue = (lowerBound + (width/numberOfRectangles * 0.5));
 
 			//should set previousArea to 0.
-			for (double i = (lowerBound + (width/numberOfRectangles * 0.5)); i < upperBound; i += width/numberOfRectangles) {
+			for (double i = xValue; i < upperBound; i += width/numberOfRectangles) {
 				//i represents the xValue. now, we find the yValue.
-				System.out.println("LOWER BOUND: " + lowerBound);
-				System.out.println(upperBound);
 				for (int k = 0; k < coefficients.length; k++) {
 					height += coefficients[k] * Math.pow(i, k);
 				}
@@ -201,7 +198,7 @@ public class Riemann {
 	}
 
 	public static double sin () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -212,20 +209,18 @@ public class Riemann {
 				for (int k = 0; k < coefficients.length; k++) {
 					height += coefficients[k] * Math.pow(i, k);
 				}
-				//System.out.println("Height: " + height);
 				currentArea += Math.sin(height) * width/numberOfRectangles;
 				height = 0;
 				//now we have found the area of one rectangle.
 				//will iterate through until currentArea represents all areas of all rectangles.
 			}
 			numberOfRectangles += 1.0;
-			// System.out.println(currentArea - previousArea/currentArea);
 		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
 		return (currentArea);
 	}
 
 	public static double cos () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -247,7 +242,7 @@ public class Riemann {
 	}
 
 	public static double tan () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -269,7 +264,7 @@ public class Riemann {
 	}
 
 	public static double csc () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -291,7 +286,7 @@ public class Riemann {
 	}
 
 	public static double sec () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -314,7 +309,7 @@ public class Riemann {
 	}
 
 	public static double cot () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -336,7 +331,7 @@ public class Riemann {
 	}
 
 	public static double log () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -358,7 +353,7 @@ public class Riemann {
 	}
 
 	public static double exp () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
@@ -380,7 +375,7 @@ public class Riemann {
 	}
 
 	public static double sqrt () {
-		width = Math.abs(upperBound) + Math.abs(lowerBound);
+		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
 			currentArea = 0;
