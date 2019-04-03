@@ -1,67 +1,17 @@
-/**
-randomized estimation to determine the area under a curve
-programs for integrating polynomials
-computes definite integrals using Riemann integration
-handle polynomials to the nth degree
-proper argument handling
-proper way to invoke program: java Riemann args[0] args[1] args [2]... args[k] <lowerbound> <upperbound> <percentage>
-args[0] : name of function type
-args[1] - args[k] : specify the coefficients of the polynomials
-lowerbound and upperbound : specify the lower and upper bounds of x, i.e. the range within which the integral shoud be evaluated
-percentage : indicates when the program should halt - the program should halt when two successive approxiamtions are within a percentage of each other.
-no optional arguments for this assignment - all arguments must be inputted.
-**/
-
-/**
-functions i need to handle:
-
-polynomials (poly)
-sin
-logarithms (log)
-exponents (exp)
-square root (sqrt)
-
-**/
-
-/**
-Argument handling:
-
-if (args[args.length - 1].contains("%")) {
-use substring method : (args[args.length - 1].length() - 2) to return the length of the substring
-Double.parseDouble(substring (0, (args[args.length - 1].length() - 2))
-^^
-if the percentage specified is 10.0%, parses double of the last argument with length 4 - 2... which means stops at location 2 in the substring... at 10.(0)%
-}
-
-^^^
-then Double.parseDouble for that number to return the double of the last number value if percentage specified.
-
-**/
-
-/**
-
-how do we know when to stop the program?
-what does the percentage do?
-
--- if the current value that you have divided by the last number you recorded is smaller than (percentage), its close enough.
-
-**/
 import java.util.*;
 public class Riemann {
 	public static double percentage;
 	public static double[] coefficients;
 	public static double lowerBound;
 	public static double upperBound;
-	public static double yValue;
 	public static double currentArea;
 	public static double previousArea;
-	public static double xValue;
 	public static double height;
 	public static double width;
 	public static double numberOfRectangles;
 
 	public Riemann () {
-		this.percentage = 1;
+		this.percentage = 0.01;
 		this.numberOfRectangles = 1.0;
 	}
 
@@ -79,9 +29,6 @@ public class Riemann {
 				coefficients = new double[args.length - 4];
 			}catch (Exception e) {
 				throw new IllegalArgumentException ("Invalid number of arguments for percentage specified. Try again.");
-			}
-			if (coefficients.length == 0) {
-				throw new IllegalArgumentException ("Must enter coefficient arguments. For example: if trying to find sin(x), enter: java Riemann sin 0 1");
 			}
 			//BY DEFAULT, THERE ARE THREE ARGUMENTS WE IGNORE; THE FUNCTION TYPE, AND THE UPPER AND LOWER BOUNDS.
 			//IF PERCENTAGE SPECIFIED, NEED TO IGNORE AN EXTRA ARGUMENT.
@@ -104,9 +51,6 @@ public class Riemann {
 				coefficients = new double[args.length - 3];
 			} catch (Exception e) {
 				throw new IllegalArgumentException ("Invalid number of arguments for default percentage.");
-			}
-			if (coefficients.length == 0) {
-				throw new IllegalArgumentException ("Must enter coefficient arguments. For example: if trying to find sin(x), enter: java Riemann sin 0 1");
 			}
 			try {
 				//BY DEFAULT THERE ARE 3 ARGUMENTS WE HAVE TO IGNORE.
@@ -175,6 +119,9 @@ public class Riemann {
  */
 
 	public static double poly () {
+		if (coefficients.length == 0) {
+			throw new IllegalArgumentException ("Must enter coefficient arguments. For example: if trying to find sin(x), enter: java Riemann sin 0 1");
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -198,6 +145,12 @@ public class Riemann {
 	}
 
 	public static double sin () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -220,6 +173,12 @@ public class Riemann {
 	}
 
 	public static double cos () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -242,6 +201,12 @@ public class Riemann {
 	}
 
 	public static double tan () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -264,6 +229,12 @@ public class Riemann {
 	}
 
 	public static double csc () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -286,6 +257,12 @@ public class Riemann {
 	}
 
 	public static double sec () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -309,6 +286,12 @@ public class Riemann {
 	}
 
 	public static double cot () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -331,6 +314,12 @@ public class Riemann {
 	}
 
 	public static double log () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -353,6 +342,12 @@ public class Riemann {
 	}
 
 	public static double exp () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -375,6 +370,14 @@ public class Riemann {
 	}
 
 	public static double sqrt () {
+		if (coefficients.length == 0) {
+			coefficients = new double[2];
+			coefficients[0] = 0;
+			coefficients[1] = 1;
+		}
+		if (lowerBound < 0) {
+			throw new IllegalArgumentException ("Square root function does not exist at this point.");
+		}
 		width = Math.sqrt(Math.pow(upperBound - lowerBound, 2));
 		do {
 			previousArea = currentArea;
@@ -386,7 +389,7 @@ public class Riemann {
 				for (int k = 0; k < coefficients.length; k++) {
 					height += coefficients[k] * Math.pow(i, k);
 				}
-				currentArea += Math.sqrt(Math.abs(height)) * width/numberOfRectangles;
+				currentArea += Math.sqrt(height) * width/numberOfRectangles;
 				height = 0;
 				//now we have found the area of one rectangle.
 				//will iterate through until currentArea represents all areas of all rectangles.
@@ -398,7 +401,7 @@ public class Riemann {
 	public static void main (String[] args) {
 		Riemann riemann = new Riemann();
 		riemann.argumentHandler(args);
-		System.out.println(currentArea);
+		System.out.println("Approximate area is: " + currentArea);
 	}
 
 }

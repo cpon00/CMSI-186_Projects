@@ -123,7 +123,7 @@ echo ===========================================================================
 echo Testing valid function name 'poly' with three args with final arg 1e-6%%       >> testresults.txt
 echo ...should produce a result close to '2.0000'                                   >> testresults.txt
 echo ============================================================================   >> testresults.txt
-@java Riemann poly 2 1 2 1e-6%                                                      >> testresults.txt
+@java Riemann poly 2 1 2 1e-6%%                                                      >> testresults.txt
 
 @echo .
 @echo Testing valid function name 'poly' with test case parabola args and 1e-6%%
