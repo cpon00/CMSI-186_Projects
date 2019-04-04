@@ -398,10 +398,12 @@ public class Riemann {
 		}while (Math.abs(currentArea/previousArea) == 0 || Math.abs((currentArea - previousArea)/currentArea) >= percentage);
 		return (currentArea);
 	}
+
 	public static void main (String[] args) {
 		Riemann riemann = new Riemann();
 		riemann.argumentHandler(args);
 		System.out.println("Approximate area is: " + currentArea);
 	}
+
 
 }
