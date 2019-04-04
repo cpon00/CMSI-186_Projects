@@ -15,13 +15,13 @@ public class Riemann {
 		this.numberOfRectangles = 1.0;
 	}
 
-    public void argumentHandler (String[] args) {
+	public void argumentHandler (String[] args) {
 		if (args[args.length - 1].contains("%")) {
 			try {
-			percentage = Double.parseDouble(args[args.length - 1].substring(0, args[args.length - 1].length() - 1));
-		    }catch (Exception e) {
+				percentage = Double.parseDouble(args[args.length - 1].substring(0, args[args.length - 1].length() - 1));
+			}catch (Exception e) {
 				throw new IllegalArgumentException ("Percentage value is invalid. Try again.");
-		    }
+			}
 			if (percentage <= 0) {
 				throw new IllegalArgumentException ("Percentage value is invalid. Try again.");
 			}
@@ -71,52 +71,52 @@ public class Riemann {
 
 		switch(args[0]) {
 			case "poly" :
-			    Riemann.poly();
-			    break;
+			Riemann.poly();
+			break;
 			case "sin" :
-			    Riemann.sin();
-			    break;
+			Riemann.sin();
+			break;
 			case "cos" :
-				Riemann.cos();
-				break;
+			Riemann.cos();
+			break;
 			case "tan" :
-				Riemann.tan();
-				break;
+			Riemann.tan();
+			break;
 			case "csc" :
-				Riemann.csc();
-				break;
+			Riemann.csc();
+			break;
 			case "sec" :
-				Riemann.sec();
-				break;
+			Riemann.sec();
+			break;
 			case "cot" :
-				Riemann.cot();
-				break;
+			Riemann.cot();
+			break;
 			case "log" :
-			    Riemann.log();
-			    break;
+			Riemann.log();
+			break;
 			case "exp" :
-			    Riemann.exp();
-			    break;
+			Riemann.exp();
+			break;
 			case "sqrt" :
-			    Riemann.sqrt();
-			    break;
+			Riemann.sqrt();
+			break;
 			default:
-			    throw new IllegalArgumentException ("This type of function is not supported by the program.");
-				//if not a valid type, should break the statement.
+			throw new IllegalArgumentException ("This type of function is not supported by the program.");
+			//if not a valid type, should break the statement.
 		}
 	}
 
-/**
- *Calculating area is simple.
- Step 1: Know the equation and the bounds.
- Step 2: Find the distance between both bounds.
- Step 3: Know how many rectangles you want to make.
- Step 4: Find the locations of where those rectangles should start. Midpoint? Width of rectangle divided by 2.
- Step 5: Find the y value at that location.
- Step 6: Multiply that yValue by the width of the rectangle to find area of one rectangle.
- Step 7: Add up all of the areas of the rectangles to find the approximate area.
- Step 8: Increase the number of rectangles until current divided by previous is less than the percent value.
- */
+	/**
+	*Calculating area is simple.
+	Step 1: Know the equation and the bounds.
+	Step 2: Find the distance between both bounds.
+	Step 3: Know how many rectangles you want to make.
+	Step 4: Find the locations of where those rectangles should start. Midpoint? Width of rectangle divided by 2.
+	Step 5: Find the y value at that location.
+	Step 6: Multiply that yValue by the width of the rectangle to find area of one rectangle.
+	Step 7: Add up all of the areas of the rectangles to find the approximate area.
+	Step 8: Increase the number of rectangles until current divided by previous is less than the percent value.
+	*/
 
 	public static double poly () {
 		if (coefficients.length == 0) {
@@ -402,8 +402,45 @@ public class Riemann {
 	public static void main (String[] args) {
 		Riemann riemann = new Riemann();
 		riemann.argumentHandler(args);
-		System.out.println("Approximate area is: " + currentArea);
+		System.out.println(currentArea);
 	}
 
-
+	// private static void runMyTests() {
+	// 	Riemann riemann = new Riemann();
+	// 	System.out.println( "\nFIVE TESTS FOR Riemann.poly():" );
+	// 	String[] args = {"poly","0","1","0","10","1e-7%"};
+	// 	try { System.out.println(50.0 == riemann.argumentHandler(args) ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(-50.0 == riemann.argumentHandler("poly 0 1 -10 0 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(352.5 == riemann.argumentHandler("poly 1 1 1 -10 0 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(50.0 == riemann.argumentHandler("poly 22 0 0 -1 -10 10 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(2898049.52381 == riemann.argumentHandler("poly 12 1 1 1 1 1 1 -10 10 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	System.out.println("\nFIVE TESTS FOR Riemann.sin()" );
+	//
+	// 	try { System.out.println(1.83907152908 == riemann.argumentHandler("sin 0 10 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(1.83907152908 == riemann.argumentHandler("sin 0 1 0 10 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(0.0 == riemann.argumentHandler("sin 0 0 1 -3.14159 3.14159 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(0.540302305868 == riemann.argumentHandler("sin 1 2 0 4.71238898038 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	// 	try { System.out.println(50.0 == riemann.argumentHandler("sin 0 -1 1.0471975512 1.57079632679 1e-7%") ? "true" : "false"); }
+	// 	catch (Exception e) {System.out.println (false); }
+	//
+	//
+	// }
 }
