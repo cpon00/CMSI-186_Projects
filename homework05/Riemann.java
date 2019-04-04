@@ -405,42 +405,5 @@ public class Riemann {
 		System.out.println(currentArea);
 	}
 
-	// private static void runMyTests() {
-	// 	Riemann riemann = new Riemann();
-	// 	System.out.println( "\nFIVE TESTS FOR Riemann.poly():" );
-	// 	String[] args = {"poly","0","1","0","10","1e-7%"};
-	// 	try { System.out.println(50.0 == riemann.argumentHandler(args) ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(-50.0 == riemann.argumentHandler("poly 0 1 -10 0 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(352.5 == riemann.argumentHandler("poly 1 1 1 -10 0 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(50.0 == riemann.argumentHandler("poly 22 0 0 -1 -10 10 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(2898049.52381 == riemann.argumentHandler("poly 12 1 1 1 1 1 1 -10 10 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	System.out.println("\nFIVE TESTS FOR Riemann.sin()" );
-	//
-	// 	try { System.out.println(1.83907152908 == riemann.argumentHandler("sin 0 10 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(1.83907152908 == riemann.argumentHandler("sin 0 1 0 10 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(0.0 == riemann.argumentHandler("sin 0 0 1 -3.14159 3.14159 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(0.540302305868 == riemann.argumentHandler("sin 1 2 0 4.71238898038 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	// 	try { System.out.println(50.0 == riemann.argumentHandler("sin 0 -1 1.0471975512 1.57079632679 1e-7%") ? "true" : "false"); }
-	// 	catch (Exception e) {System.out.println (false); }
-	//
-	//
-	// }
+
 }
