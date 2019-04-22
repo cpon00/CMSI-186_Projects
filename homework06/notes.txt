@@ -1,0 +1,81 @@
+/**
+ *BigInts need to be stored as strings.
+ *NEED TO HANDLE:
+ *Addition
+ *Subtraction
+ *Multiplication
+ *Division
+ *Remainder
+ *toString()
+ *compareTo
+ *equals
+ *valueOf
+
+ *MAX VALUE OF AN INT: 2^32 - 1
+ */
+
+ /**
+  *Chunkification Process:
+  *Say I have a string of 72395286441392198719694423171929...
+  *Can't add strings together - that would be concatenation...
+  *biggest integer number in a byte is 255.
+  *100 fits in a byte.
+  *99 fits in a byte.
+  *99 is the biggest value that will ever fit in two digits.
+  *99 is now chunk size to represent bytes.
+  *byte is smaller than int.
+  *store the biggest number in a byte.
+  *01100011 is the byte representation of 99.
+  *Allows us to think about memory usage in programming.
+  *What if we used integers?
+  *Just maximize the space usage of each integer.
+  *Integers are 32 bits.
+  *Max Value of an Integer is 2^32 - 1.
+  *same philosophy can be followed.
+  *999999999 is the biggest value that we want to handle. 9 digits of 9.
+  *
+  *Constructor for BrobInt:
+  *
+  *9 digits for each chunk.
+  *72395 - 286441392 - 198719694 - 423171929 <---string
+  *can call s.length() to return how long the string of numbers is.
+  *public BrobInt(string) {}
+  *We don't want to change the value of brobInt1 or brobInt2, but instead make a new brobInt3.
+  *instantiate a variable titled public String internal = "";
+  *within the constructor, assign the value of "string" to "internal."
+  *now, we chunkify the string.
+  *variable chunks = internal.length()/9.
+  *so now we have chunks = 3.
+  *but that is only 27, as 3 * 9 is 27.
+  *that means we lose the first five digits.
+  *maybe we just add an extra chunk to handle the first 5 we lose.
+  *int[] RA = new int[] that is the size of chunks.
+  *could do Math.ceil(internal.length/9.0 <--- returns precision value) <--returns 4.0
+  *this means that if there is a remainder, there will be another chunk; if not, then no other chunk.
+  *use substring method to pull out numbers.
+  *int start = stop - 8;
+  *int stop; = s.length() - 1;
+  *for (int - = 0; i < chunks, i ++) {
+  *	   RA[i] = Integer.parseInt(s.substring(start,stop));
+  *    stop -= 9;
+  *    start -= 9;
+  *}
+  *RA[0] = 423171929;
+  *RA[1] = 198719694;
+  *RA[2] = 286441392;
+  *for the last chunk; perhaps put an if statement in your for loop.
+  *if i == last chunk, start = 0; else, start -= 9;
+  *then, RA[3] = 72395;
+  *NOW: We have made an internal representation of the BigFuckinInt.
+  *WHAT IF: the number is negative?
+  *Maybe we ask if the first character of string is "-"...
+  *have a variable called sign that is 0 if number is pos, 1 if number is neg.
+  *then for the last chunk, need to start at s[1].
+
+
+
+  *toString() method:
+  *public String toString() {}
+  *just return the internal representation of the string; return internal;
+  *if negative, return: "-" + internal;
+  */
