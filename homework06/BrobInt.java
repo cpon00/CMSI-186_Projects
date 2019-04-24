@@ -67,44 +67,29 @@ public class BrobInt {
     *  @param  value  String value to make into a BrobInt
     */
     public BrobInt( String value ) {
-        //a BigInt is passed into the constructor. I need to represent this BigInt in an array.
         this.internalValue = value;
-        //System.out.println("I am internalValue: "+ internalValue);
         validateDigits();
-
-        //System.out.println(chunks);
         if (value.charAt(0) == '-') {
             sign = 1;
-            value.replace("-", "");
+            value = value.replace("-", "");
         }else if (value.charAt(0) == '+') {
-            value.replace("+", "");
+            value = value.replace("+", "");
         }
-
         this.chunks = (int)(Math.ceil(value.length()/9.0));
         int stop = value.length();
         int start = stop - 9;
         if (start < 0) {
             start = 0;
         }
-        //System.out.println("stop: " + stop);
-        //System.out.println("start: " + start);
         for (int i = chunks; i > 0; i--) {
             this.intArrayList.add(Integer.parseInt(value.substring(start,stop)));
             stop -= 9;
             if (i == 2) {
-                if (sign == 1) {
-                    start = 1;
-                }else{
-                    start = 0;
-                }
+                start = 0;
             }else{
                 start -= 9;
             }
-
         }
-        //System.out.println("I am internalValue: " + value);
-        //so now, theoretically, intArrayList represents the BigInt in an integer array.
-        //intArrayList is organized from smallest to biggest.
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -159,28 +144,63 @@ public class BrobInt {
         int remainder = 0;
         int sum = 0;
         if (bint.sign == this.sign) {
-            for (int i = 0; i < this.intArrayList.size(); i++) {
-                if (i >= bint.intArrayList.size()) {
-                    sum = this.intArrayList.get(i) + remainder;
-                    result = String.valueOf(sum) + result;
-                }else{
-                    sum = this.intArrayList.get(i) + bint.intArrayList.get(i) + remainder;
-                    if (sum >= BILLION) {
-                        sum -= BILLION;
-                        result = String.valueOf(String.format("%09d", sum)) + result;
-                        remainder = 1;
-                    }else{
+            if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
+                for (int i = 0; i < this.intArrayList.size(); i++) {
+                    if (i >= bint.intArrayList.size()) {
+                        sum = this.intArrayList.get(i) + remainder;
                         result = String.valueOf(sum) + result;
-                        remainder = 0;
-
+                    }else{
+                        sum = this.intArrayList.get(i) + bint.intArrayList.get(i) + remainder;
+                        if (sum >= BILLION) {
+                            sum -= BILLION;
+                            result = String.valueOf(String.format("%09d", sum)) + result;
+                            remainder = 1;
+                        }else{
+                            result = String.valueOf(sum) + result;
+                            remainder = 0;
+                        }
                     }
                 }
-            }
-
-        }else{
-
+                if (this.sign == 1) {
+                    result = "-" + result;
+                }
+            }else if (bint.sign == this.sign && this.compareTo(bint) == -1){
+                for (int i = 0; i < bint.intArrayList.size(); i++) {
+                    if (i >= this.intArrayList.size()) {
+                        sum = bint.intArrayList.get(i) + remainder;
+                        result = String.valueOf(sum) + result;
+                    }else{
+                        sum = bint.intArrayList.get(i) + this.intArrayList.get(i) + remainder;
+                        if (sum >= BILLION) {
+                            sum -= BILLION;
+                            result = String.valueOf(String.format("%09d", sum)) + result;
+                            remainder = 1;
+                        }else{
+                            result = String.valueOf(sum) + result;
+                            remainder = 0;
+                        }
+                    }
+                }
+                if (this.sign == 1) {
+                    result = "-" + result;
+                }
         }
-        return new BrobInt(result);
+        }else{
+            if (this.sign == 1) {
+                if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
+                   return(this.subtract(bint));
+                }else{
+                    return(bint.subtract(this));
+                }
+            }else if (bint.sign == 1) {
+                if (this.compareTo(bint) == -1 || this.compareTo(bint) == 0) {
+                    return(bint.subtract(this));
+                }else{
+                    return(this.subtract(bint));
+                }
+            }
+        }
+        return removeLeadingZeros(new BrobInt(result));
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -192,7 +212,7 @@ public class BrobInt {
         String result = "";
         int remainder = 0;
         int sum = 0;
-        if (bint.sign == this.sign) {
+        if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
             for (int i = 0; i < this.intArrayList.size(); i++) {
                 if (i >= bint.intArrayList.size()) {
                     sum = this.intArrayList.get(i) - remainder;
@@ -200,7 +220,7 @@ public class BrobInt {
                 }else{
                     sum = this.intArrayList.get(i) - bint.intArrayList.get(i) - remainder;
                     if (sum < intZERO) {
-                        sum = Math.abs(sum);
+                        sum = BILLION + sum;
                         result = String.valueOf(String.format("%09d", sum)) + result;
                         remainder = 1;
                     }else{
@@ -210,11 +230,32 @@ public class BrobInt {
                     }
                 }
             }
-
+            if (this.sign == 1 && String.valueOf(result) != "0") {
+                result = "-" + result;
+            }
         }else{
+            for (int i = 0; i < bint.intArrayList.size(); i++) {
+                if (i >= this.intArrayList.size()) {
+                    sum = bint.intArrayList.get(i) - remainder;
+                    result = String.valueOf(sum) + result;
+                }else{
+                    sum = bint.intArrayList.get(i) - this.intArrayList.get(i) - remainder;
+                    if (sum < intZERO) {
+                        sum = BILLION + sum;
+                        result = String.valueOf(String.format("%09d", sum)) + result;
+                        remainder = 1;
+                    }else{
+                        result = String.valueOf(sum) + result;
+                        remainder = 0;
 
+                    }
+                }
+            }
+            if (bint.sign == 0) {
+                result = "-" + result;
+            }
         }
-        return new BrobInt(result);
+        return removeLeadingZeros(new BrobInt(result));
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -268,48 +309,6 @@ public class BrobInt {
             }
         }
         return 0;
-
-        // handle the signs here
-        // if( 1 == sign && 0 == bint.sign ) {
-        //     //means this is negative...
-        //     return -1;
-        // } else if( 0 == sign && 1 == bint.sign ) {
-        //     //means bint is negative...
-        //     return 1;
-        // }
-
-        // the signs are the same at this point
-        // remove any leading zeros because we will compare lengths
-        // String me  = removeLeadingZeros( this ).toString();
-        // String me  = ( new BrobInt( internalValue ) ).toString();
-        // String arg = ( bint ).toString();
-        //
-        // // String me  = removeLeadingZeros( new BrobInt( internalValue ) ).toString();
-        // // String arg = removeLeadingZeros( bint ).toString();
-        //
-        // // check the length and return the appropriate value
-        // //   1 means this is longer than bint, hence larger
-        // //  -1 means bint is longer than this, hence larger
-        // if( me.length() > arg.length() ) {
-        //     //means this is a larger number than bint...
-        //     return 1;
-        // } else if( me.length() < arg.length() ) {
-        //     //means bint is a larger number than this...
-        //     return (-1);
-        //
-        //     // otherwise, they are the same length, so compare absolute values
-        //
-        // for( int i = 0; i < me.length(); i++ ) {
-        //     Character a = Character.valueOf( me.charAt(i) );
-        //     Character b = Character.valueOf( arg.charAt(i) );
-        //     if( Character.valueOf(a).compareTo( Character.valueOf(b) ) > 0 ) {
-        //         return 1;
-        //     } else if( Character.valueOf(a).compareTo( Character.valueOf(b) ) < 0 ) {
-        //         return -1;
-        //     }
-        // }
-        // return 0;
-        //if I get -1, that means bint is larger. if I get 1, that means this is larger.
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,12 +414,16 @@ public class BrobInt {
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     *  the main method redirects the user to the test class
     *  @param  args  String array which contains command line arguments
-    *  NOTE:  we don't really care about these, since we test the BrobInt class with the BrobIntTester
+    *  NOTE:  we don't really care about these, since
+    * we test the BrobInt class with the BrobIntTester
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public static void main( String[] args ) {
-        System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
-        System.out.println( "\n   You should run your tests from the BrobIntTester...\n" );
-        BrobInt b1 = new BrobInt(args[0]);
+        //System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
+        //System.out.println( "\n   You should run your tests from the BrobIntTester...\n" );
+        //BrobInt b1 = new BrobInt(args[0]);
+        BrobInt number1 = new BrobInt(args[0]);
+        BrobInt number2 = new BrobInt(args[1]);
+        System.out.println(number1.add(number2));
         System.exit( 0 );
 
     }

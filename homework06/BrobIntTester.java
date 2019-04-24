@@ -423,49 +423,49 @@ public class BrobIntTester {
          System.out.println( "      expecting: 234557\n" +
                              "        and got: " + g13.subtract( g11 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g11 take away g13 [10 - 234567] using bytes: " );
       try {
          System.out.println( "      expecting: -234557\n" +
                              "        and got: " + g11.subtract( g13 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g13 take away g15 [234567 - (-10)] using bytes: " );
       try {
          System.out.println( "      expecting: 234577\n" +
                              "        and got: " + g13.subtract( g15 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g15 take away g13 [(-10) - 234567] using bytes: " );
       try {
          System.out.println( "      expecting: -234577\n" +
                              "        and got: " + g15.subtract( g13 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g14 take away g16 [(-234567) - (-999999)] using bytes: " );
       try {
          System.out.println( "      expecting: 765432\n" +
                              "        and got: " + g14.subtract( g16 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g16 take away g14 [(-999999) - (-234567)] using bytes: " );
       try {
          System.out.println( "      expecting: -765432\n" +
                              "        and got: " + g16.subtract( g14 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Subtracting g1 take away g1 [too long to list] using bytes: " );
       try {
          System.out.println( "      expecting: 000000000000000000000000000000000000000000000000000000000000000000\n" +
                              "        and got: " + g1.subtract( g1 ) );
       }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " ); }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
       System.out.println( "\n\n    TESTING MULTIPLY() METHOD:\n" +
                           "    ==========================" );
