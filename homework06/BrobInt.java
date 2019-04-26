@@ -147,8 +147,9 @@ public class BrobInt {
             if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
                 for (int i = 0; i < this.intArrayList.size(); i++) {
                     if (i >= bint.intArrayList.size()) {
+
                         sum = this.intArrayList.get(i) + remainder;
-                        result = String.valueOf(sum) + result;
+                        result = String.valueOf(String.format("%09d",sum)) + result;
                     }else{
                         sum = this.intArrayList.get(i) + bint.intArrayList.get(i) + remainder;
                         if (sum >= BILLION) {
@@ -156,14 +157,15 @@ public class BrobInt {
                             result = String.valueOf(String.format("%09d", sum)) + result;
                             remainder = 1;
                         }else{
-                            result = String.valueOf(sum) + result;
+                            result = String.valueOf(String.format("%09d", sum)) + result;
                             remainder = 0;
                         }
                     }
                 }
-                if (this.sign == 1) {
-                    result = "-" + result;
+                if (remainder == 1) {
+                    result = "1" + result;
                 }
+
             }else if (bint.sign == this.sign && this.compareTo(bint) == -1){
                 for (int i = 0; i < bint.intArrayList.size(); i++) {
                     if (i >= this.intArrayList.size()) {
@@ -176,15 +178,15 @@ public class BrobInt {
                             result = String.valueOf(String.format("%09d", sum)) + result;
                             remainder = 1;
                         }else{
-                            result = String.valueOf(sum) + result;
+                            result = String.valueOf(String.format("%09d", sum)) + result;
                             remainder = 0;
                         }
                     }
                 }
-                if (this.sign == 1) {
-                    result = "-" + result;
-                }
-        }
+            }
+            if (this.sign == 1) {
+                result = "-" + result;
+            }
         }else{
             if (this.sign == 1) {
                 if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
@@ -224,9 +226,8 @@ public class BrobInt {
                         result = String.valueOf(String.format("%09d", sum)) + result;
                         remainder = 1;
                     }else{
-                        result = String.valueOf(sum) + result;
+                        result = String.valueOf(String.format("%09d", sum)) + result;
                         remainder = 0;
-
                     }
                 }
             }
@@ -245,9 +246,8 @@ public class BrobInt {
                         result = String.valueOf(String.format("%09d", sum)) + result;
                         remainder = 1;
                     }else{
-                        result = String.valueOf(sum) + result;
+                        result = String.valueOf(String.format("%09d", sum)) + result;
                         remainder = 0;
-
                     }
                 }
             }
@@ -264,7 +264,31 @@ public class BrobInt {
     *  @return BrobInt that is the product of the value of this BrobInt and the one passed in
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public BrobInt multiply( BrobInt bint ) {
-        throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+        BrobInt product = ZERO;
+        BrobInt factor1 = new BrobInt (this.internalValue);
+        BrobInt factor2 = new BrobInt (bint.internalValue);
+        int productsign = 0;
+        if (this.sign != bint.sign) {
+            productsign = 1;
+            factor1.sign = 0;
+            factor2.sign = 0;
+        }
+        if (factor1.compareTo(ZERO) == 0 || factor2.compareTo(ZERO) == 0) {
+            return ZERO;
+        }
+        while (factor1.compareTo(ONE) == 1 || factor1.compareTo(ONE) == 0) {
+            if (factor1.intArrayList.get(0) % 2 != 0) {
+                product = product.add(factor2);
+                System.out.println("Product:    " + product);
+            }
+            factor1 = factor1.divide(TWO);
+            factor2 = factor2.add(factor2);
+            System.out.println("Factor1:    " + factor1 + "     factor2:    " + factor2);
+        }
+        if (productsign == 1) {
+            product = new BrobInt ("-" + product);
+        }
+        return product;
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -273,7 +297,28 @@ public class BrobInt {
     *  @return BrobInt that is the dividend of this BrobInt divided by the one passed in
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public BrobInt divide( BrobInt bint ) {
-        throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+        String powerOfTen = "0";
+        String culmination = "1";
+        BrobInt quotient = ZERO;
+        BrobInt dividendTemp = new BrobInt (this.internalValue);
+        BrobInt divisorTemp = new BrobInt (bint.internalValue);
+        if (this.compareTo(ZERO) == 0 || bint.compareTo(ZERO) == 0) {
+            return ZERO;
+        }
+        while (dividendTemp.compareTo(divisorTemp) == 1 || dividendTemp.compareTo(divisorTemp) == 0) {
+            culmination = "1";
+            divisorTemp.internalValue = bint.internalValue;
+            while (dividendTemp.compareTo(new BrobInt (divisorTemp.internalValue + powerOfTen)) == 1) {
+                divisorTemp.internalValue += powerOfTen;
+                culmination = culmination + powerOfTen;
+            }
+            dividendTemp = dividendTemp.subtract(new BrobInt(divisorTemp.internalValue));
+            quotient = quotient.add(new BrobInt(culmination));
+        }
+        if (bint.sign != this.sign) {
+            quotient = new BrobInt ("-" + quotient.internalValue);
+        }
+        return quotient;
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -282,7 +327,9 @@ public class BrobInt {
     *  @return BrobInt that is the remainder of division of this BrobInt by the one passed in
     *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
     public BrobInt remainder( BrobInt bint ) {
-        throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+        BrobInt remainder = ZERO;
+        remainder = this.subtract(this.divide(bint).multiply(bint));
+        return remainder;
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -423,7 +470,7 @@ public class BrobInt {
         //BrobInt b1 = new BrobInt(args[0]);
         BrobInt number1 = new BrobInt(args[0]);
         BrobInt number2 = new BrobInt(args[1]);
-        System.out.println(number1.add(number2));
+        System.out.println(number1.multiply(number2));
         System.exit( 0 );
 
     }
