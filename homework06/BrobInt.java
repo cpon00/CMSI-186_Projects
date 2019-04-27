@@ -214,7 +214,11 @@ public class BrobInt {
         String result = "";
         int remainder = 0;
         int sum = 0;
-        if (this.compareTo(bint) == 1 || this.compareTo(bint) == 0) {
+        if (this.equals(bint)) {
+            return ZERO;
+
+        }
+        if (this.compareTo(bint) == 1) {
             for (int i = 0; i < this.intArrayList.size(); i++) {
                 if (i >= bint.intArrayList.size()) {
                     sum = this.intArrayList.get(i) - remainder;
@@ -268,6 +272,7 @@ public class BrobInt {
         BrobInt factor1 = new BrobInt (this.internalValue);
         BrobInt factor2 = new BrobInt (bint.internalValue);
         int productsign = 0;
+        int counter = 0;
         if (this.sign != bint.sign) {
             productsign = 1;
             factor1.sign = 0;
@@ -276,18 +281,21 @@ public class BrobInt {
         if (factor1.compareTo(ZERO) == 0 || factor2.compareTo(ZERO) == 0) {
             return ZERO;
         }
+        //System.out.println("F1:     " + factor1 + "    F2:    " + factor2);
         while (factor1.compareTo(ONE) == 1 || factor1.compareTo(ONE) == 0) {
+            counter++;
             if (factor1.intArrayList.get(0) % 2 != 0) {
                 product = product.add(factor2);
-                System.out.println("Product:    " + product);
             }
+            //System.out.println("PRODUCT:    " + product);
             factor1 = factor1.divide(TWO);
             factor2 = factor2.add(factor2);
-            System.out.println("Factor1:    " + factor1 + "     factor2:    " + factor2);
+            //System.out.println("F1:     " + factor1 + "    F2:    " + factor2);
         }
         if (productsign == 1) {
             product = new BrobInt ("-" + product);
         }
+        //System.out.println("COUNTER:    " + counter);
         return product;
     }
 
@@ -329,7 +337,7 @@ public class BrobInt {
     public BrobInt remainder( BrobInt bint ) {
         BrobInt remainder = ZERO;
         remainder = this.subtract(this.divide(bint).multiply(bint));
-        return remainder;
+        return removeLeadingZeros(remainder);
     }
 
     /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -468,9 +476,13 @@ public class BrobInt {
         //System.out.println( "\n  Hello, world, from the BrobInt program!!\n" );
         //System.out.println( "\n   You should run your tests from the BrobIntTester...\n" );
         //BrobInt b1 = new BrobInt(args[0]);
-        BrobInt number1 = new BrobInt(args[0]);
-        BrobInt number2 = new BrobInt(args[1]);
-        System.out.println(number1.multiply(number2));
+        // BrobInt number1 = new BrobInt(args[0]);
+        // BrobInt number2 = new BrobInt(args[1]);
+        // System.out.println(number1.multiply(number2));
+        BrobInt a = new BrobInt("3");
+        BrobInt b = new BrobInt("100");
+        BrobInt c = a.multiply(b);
+        System.out.println(c.internalValue);
         System.exit( 0 );
 
     }

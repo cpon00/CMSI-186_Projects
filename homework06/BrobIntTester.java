@@ -63,6 +63,27 @@ public class BrobIntTester {
    private static BrobInt g18 = null;
    private static BrobInt g19 = null;
    private static BrobInt g20 = null;
+   private static BrobInt g52 = null;
+   private static BrobInt g53 = null;
+   private static BrobInt g54 = null;
+   private static BrobInt g55 = null;
+   private static BrobInt g56 = null;
+   private static BrobInt g57 = null;
+   private static BrobInt g58 = null;
+   private static BrobInt g59 = null;
+   private static BrobInt g60 = null;
+   private static BrobInt g61 = null;
+   private static BrobInt g62 = null;
+   private static BrobInt g63 = null;
+   private static BrobInt g64 = null;
+   private static BrobInt qwerty0 = null;
+   private static BrobInt qwerty1 = null;
+   private static BrobInt qwerty2 = null;
+   private static BrobInt qwerty3 = null;
+   private static BrobInt qwerty4 = null;
+   private static BrobInt qwerty5 = null;
+   private static BrobInt qwerty6 = null;
+
 
    private static int testNumber = 1;
    private static DecimalFormat df = new DecimalFormat( "000" );
@@ -235,6 +256,7 @@ public class BrobIntTester {
       }
       catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
+
       try {
          System.out.println( "      expecting: 10\n" +
                              "        and got: " + g11.toString() );
@@ -342,6 +364,24 @@ public class BrobIntTester {
          System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Adding g1 and g4 using bytes: " );
          System.out.println( "      expecting: 144127909719725076806064402568842359092656528233967026820237074760\n" +
                              "        and got: " + g1.add( g4 ) );
+      }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
+
+      try {
+          qwerty2 = new BrobInt ("7392");
+          qwerty3 = new BrobInt ("102030");
+         System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Adding g1 and g4 using bytes: " );
+         System.out.println( "      expecting: 109422\n" +
+                             "        and got: " + qwerty2.add( qwerty3 ) );
+      }
+      catch( Exception e ) { System.out.println(String.valueOf(e)); }
+
+      try {
+          qwerty4 = new BrobInt ("-55555");
+          qwerty5 = new BrobInt ("-88888888");
+         System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Adding g1 and g4 using bytes: " );
+         System.out.println( "      expecting: -88944443\n" +
+                             "        and got: " + qwerty4.add( qwerty5 ) );
       }
       catch( Exception e ) { System.out.println(String.valueOf(e)); }
 
@@ -476,6 +516,28 @@ public class BrobIntTester {
       }
       catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
 
+      try {
+         g59 = new BrobInt ("1234567890");
+         g60 = new BrobInt ("1234567890");
+         System.out.println( "      expecting: 1524157875019052100\n" +
+                             "        and got: " + g59.multiply( g60 ) );
+      }
+      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+      try {
+          g61 = new BrobInt ("0");
+          g62 = new BrobInt ("1234567890");
+         System.out.println( "      expecting: 0\n" +
+                             "        and got: " + g61.multiply( g62 ) );
+      }
+      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+      try {
+          g63 = new BrobInt ("1234567890");
+          g64 = new BrobInt ("-1234567890");
+         System.out.println( "      expecting: -1524157875019052100\n" +
+                             "        and got: " + g63.multiply( g64 ) );
+      }
+      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Making a seventeenth new BrobInt: "  );
       try {
          g17 = new BrobInt( g17String );
@@ -582,13 +644,25 @@ public class BrobIntTester {
 
       System.out.println( "\n\n    TESTING DIVIDE() METHOD:\n" +
                           "    ========================" );
-      System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Dividing g19 by g20 [56789 / 37]: " );
+      System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Di " );
       try {
-         System.out.println( "      expecting: 1534\n" +
-                             "        and got: " + g19.divide( g20 ) );
-      }
-      catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
-
+         g52 = new BrobInt ("1234567890");
+         g53 = new BrobInt ("1234567890");
+         System.out.println( "      expecting: -1\n" +
+                             "        and got: " + g52.divide( g53) );
+      } catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+      try {
+          g54 = new BrobInt ("1234567890");
+          g55 = new BrobInt ("1");
+         System.out.println( "      expecting: 1234567890\n" +
+                             "        and got: " + g54.divide( g55 ) );
+      } catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
+      try {
+          g56 = new BrobInt ("987654321");
+          g57 = new BrobInt ("456789");
+         System.out.println( "      expecting: 2162\n" +
+                             "        and got: " + g56.divide( g57 ) );
+      } catch( Exception e ) { System.out.println( "        Exception thrown:  " + e.toString() ); }
       System.out.println( "\n    Test " + df.format( testNumber++ ) + ": Dividing 52 by 2: " );
       BrobInt fiftytwo = new BrobInt( "52" );
       try {
