@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"<Unnamed>","c":"DynamicChangeMaker","l":"DynamicChangeMaker(String[])","url":"%3Cinit%3E(java.lang.String[])"},{"p":"<Unnamed>","c":"DynamicChangeMaker","l":"main(String[])","url":"main(java.lang.String[])"},{"p":"<Unnamed>","c":"DynamicChangeMaker","l":"makeChangeWithDynamicProgramming(int[], int)","url":"makeChangeWithDynamicProgramming(int[],int)"}]
