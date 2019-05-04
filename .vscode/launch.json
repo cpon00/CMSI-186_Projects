@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DynamicChangeMaker",
+            "request": "launch",
+            "mainClass": "DynamicChangeMaker",
+            "projectName": "CMSI-186_Projects_cf8786c1"
+        }
+    ]
+}

@@ -201,7 +201,7 @@ public class Tuple {
    @Override
    public String toString() {
       if( isImpossible()) {
-         return "Impossible tuple";
+         return "Impossible Tuple";
       }
 
       String result = "<";
