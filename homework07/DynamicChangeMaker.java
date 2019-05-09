@@ -65,7 +65,10 @@ public class DynamicChangeMaker {
         
     
     /**
-     * Program determines the optimal amount of change to make a sum target.
+     * 
+     * @param denominations array of coin denominations
+     * @param target target sum of coin denominations
+     * @return tuple of most efficient combination, or impossible tuple.
      */
     public static Tuple makeChangeWithDynamicProgramming (int[] denominations, int target) {
 
