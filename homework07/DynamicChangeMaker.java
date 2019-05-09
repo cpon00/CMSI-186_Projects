@@ -23,7 +23,6 @@
  *This class is DynamicChangeMaker, a class that will take in an array of coin denomination arguments
  *and output an optimal combination of those specified denominations to reach a sum argument.
 */
-import java.util.Arrays;
 
 public class DynamicChangeMaker {
     static int[] denominations;
@@ -31,66 +30,60 @@ public class DynamicChangeMaker {
    /**
     * In every instance of DynamicChangeMaker, determines value of target sum and value(s) of denominations.
     * @param args the number of coin denominations and the sum target value.
-    * @throws IllegalArgumentException if the arguments cannot be parsed as integers.
+    * @throws IllegalArgumentException if the arguments cannot be parsed as integers or are invalid.
     */
     public DynamicChangeMaker (String[]args) throws IllegalArgumentException {
         String tempArr[] = new String[args[0].length()];
         tempArr = args[0].split(",");
         denominations = new int[tempArr.length];
+        boolean goodargs = true;
         if (denominations.length <= 1) {
-            throw new IllegalArgumentException("Not enough arguments.");
+            goodargs = false;
         }
-        for (int i = 0; i < tempArr.length; i++) {
-            try{
+        for (int i = 0; i < denominations.length; i++) {
+            try {
                 denominations[i] = Integer.parseInt(tempArr[i]);
-                if (denominations[i] <= 0) {
-                    throw new IllegalArgumentException();
-                }
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Denomination(s) cannot be parsed as integer or negative/zero.");
-            } 
-        }
-        try{
-            target = Integer.parseInt(args[args.length - 1]);
-            if (target <= 0) {
-                throw new IllegalArgumentException();
+            }catch (Exception e) {
+                goodargs = false;
             }
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Target sum cannot be parsed as integer or is negative/zero.");
+            if (denominations[i] <= 0) {
+                goodargs = false;
+            }
+        }        
+        target = Integer.parseInt(args[args.length - 1]);
+        if (target <= 0) {
+            goodargs = false;
         }
-        try {
-            for (int i = 0; i < denominations.length; i++) {
-                for (int k = 0; k < denominations.length; k++) {
-                    if (denominations[i] == denominations[k] && i != k ) {
-                        throw new IllegalArgumentException();
-                    }
+        for (int i = 0; i < denominations.length; i++) {
+            for (int k = i + 1; k < denominations.length; k++) {
+                if (denominations[i] == denominations[k]) {
+                    goodargs = false;
                 }
             }
-        }catch (Exception e) {
-            throw new IllegalArgumentException("Cannot have duplicate coin denominations.");
         }
-
     }
+        
+    
     /**
      * Program determines the optimal amount of change to make a sum target.
      */
     public static Tuple makeChangeWithDynamicProgramming (int[] denominations, int target) {
 
-        try {
-            for (int i = 0; i < denominations.length; i++) {
-                if (denominations[i] <= 0) {
-                    throw new IllegalArgumentException();
-                }
-
-                for (int k = 0; k < denominations.length; k++) {
-                    if (denominations[i] == denominations[k] && i != k ) {
-                        throw new IllegalArgumentException();
-                    }
-                }  
+        for (int i = 0; i < denominations.length; i++) {
+            if (denominations[i] <= 0) {
+                return Tuple.IMPOSSIBLE;
             }
-        }catch (Exception e) {
-            throw new IllegalArgumentException("Invalid Arguments.");
+
+            for (int k = i + 1; k < denominations.length; k++) {
+                if (denominations[i] == denominations[k]) {
+                return Tuple.IMPOSSIBLE;
+                }
+            }  
         }
+        if (target <= 0) {
+            return Tuple.IMPOSSIBLE;
+        }
+        
         
         Tuple[][] tupleArray;
         tupleArray = new Tuple[denominations.length][target + 1];
@@ -125,7 +118,7 @@ public class DynamicChangeMaker {
                         if (tupleArray[i][k].isImpossible()) {
                             tupleArray[i][k] = tupleArray[i - 1][k];
                         }
-                        if (tupleArray[i][k].total() >= tupleArray[i - 1][k].total()) {
+                        if (tupleArray[i][k].total() > tupleArray[i - 1][k].total()) {
                             tupleArray[i][k] = tupleArray[i - 1][k];
                         }
                     }
